@@ -1,0 +1,6 @@
+{
+  "name": "The Food Story",
+  "description": "An elegant, highly responsive animated website for The Food Story Café & Restaurant in Shahjahanpur, UP, featuring beautiful motion layout animations, custom banquet hall bookings, and full event showcase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
