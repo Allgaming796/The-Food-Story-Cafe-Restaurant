@@ -157,7 +157,13 @@ export default function App() {
         </div>
 
         {/* Dynamic Inner Panel Container with Motion transitions */}
-        <div className="relative">
+        <motion.div 
+          className="relative"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -180,17 +186,30 @@ export default function App() {
               )}
             </motion.div>
           </AnimatePresence>
-        </div>
+        </motion.div>
 
         {/* Ambient Beautiful Bento Photo Gallery */}
-        <GallerySection />
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-85px" }}
+          transition={{ duration: 0.75, ease: "easeOut" }}
+        >
+          <GallerySection />
+        </motion.div>
       </main>
 
       {/* Elegant Footer panel */}
       <footer className="bg-emerald-brand text-slate-white border-t border-emerald-mid select-none font-sans">
         
         {/* Core details */}
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 text-left">
+        <motion.div 
+          className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 text-left"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           
           {/* Brand section */}
           <div className="md:col-span-4 space-y-4">
@@ -249,7 +268,7 @@ export default function App() {
             </p>
           </div>
 
-        </div>
+        </motion.div>
 
         {/* copyright and credit rail */}
         <div className="bg-emerald-mid/50 py-6 border-t border-emerald-mid/30 text-center text-[10px] text-gray-500 font-mono flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-4">

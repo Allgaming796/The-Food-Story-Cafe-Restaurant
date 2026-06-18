@@ -72,9 +72,10 @@ export function GallerySection() {
           {GALLERY_ITEMS.map((item, idx) => (
             <motion.div
               layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: (idx % 3) * 0.12 }}
               key={idx}
               className="group relative bg-ivory-brand rounded-2xl border border-ivory-dark/65 p-6 hover:border-gold-brand/50 transition-all shadow-sm flex flex-col justify-between overflow-hidden h-64 hover:-translate-y-1 cursor-pointer select-none"
             >

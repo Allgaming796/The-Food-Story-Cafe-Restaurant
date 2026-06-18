@@ -3,6 +3,142 @@ import { motion, AnimatePresence } from "motion/react";
 import { Search, Flame, Sparkles, Plus, Minus, ShoppingBag, ArrowRight, HeartCrack, HelpCircle, Share2, Check, Sparkle } from "lucide-react";
 import { MenuItem } from "../types";
 
+export const getDishImage = (item: MenuItem): string => {
+  const lowerName = item.name.toLowerCase();
+
+  // 1. Direct matching to custom generated AI food images
+  if (lowerName.includes("maggi") || lowerName.includes("noodles")) {
+    return "/src/assets/images/veg_masala_maggi_1781825948836.jpg";
+  }
+  if (lowerName.includes("rose pasta") || lowerName.includes("pink sauce")) {
+    return "/src/assets/images/rose_pasta_craft_1781825861248.jpg";
+  }
+  if (item.id === "bf6" || item.id === "bf1") {
+    // Chhole Bhature or Poori Aloo
+    return "/src/assets/images/chhole_bhature_1781825559053.jpg";
+  }
+  if (item.id === "app4" || item.id === "app1" || item.id === "app3") {
+    // Tandoori Platter
+    return "/src/assets/images/tandoori_platter_1781825576474.jpg";
+  }
+  if (item.id.startsWith("pz") || item.name.toLowerCase().includes("pizza")) {
+    // Sourdough Pizza
+    return "/src/assets/images/sourdough_pizza_1781825589371.jpg";
+  }
+  if (
+    item.id === "mn2" || 
+    item.id === "mn4" || 
+    item.id === "mn3" || 
+    item.name.toLowerCase().includes("paneer") || 
+    item.name.toLowerCase().includes("kofta")
+  ) {
+    // Paneer butter masala or rich mains curry
+    return "/src/assets/images/paneer_butter_masala_1781825605890.jpg";
+  }
+  if (
+    item.id.startsWith("ds") || 
+    item.name.toLowerCase().includes("waffle") || 
+    item.name.toLowerCase().includes("brownie") ||
+    item.name.toLowerCase().includes("halwa")
+  ) {
+    // Waffles, Halwa, Brownies
+    return "/src/assets/images/dessert_waffle_1781825622918.jpg";
+  }
+
+  // 2. Unsplash high-resolution food photography URLs
+  if (lowerName.includes("burger")) {
+    return "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80";
+  }
+  if (lowerName.includes("pasta")) {
+    return "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=80";
+  }
+  if (lowerName.includes("momos") || lowerName.includes("momo")) {
+    return "https://images.unsplash.com/photo-1625220194771-7ebedd0b70b9?w=500&auto=format&fit=crop&q=80";
+  }
+  if (lowerName.includes("sandwich") || lowerName.includes("toast")) {
+    return "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=80";
+  }
+  if (lowerName.includes("tea") || lowerName.includes("chai")) {
+    return "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop&q=80";
+  }
+  if (
+    lowerName.includes("coffee") || 
+    lowerName.includes("latte") || 
+    lowerName.includes("frape") || 
+    lowerName.includes("shake") ||
+    lowerName.includes("smoothie")
+  ) {
+    return "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=80";
+  }
+  if (
+    lowerName.includes("mojito") || 
+    lowerName.includes("soda") || 
+    lowerName.includes("spritz") || 
+    lowerName.includes("cooler") ||
+    lowerName.includes("shake") ||
+    lowerName.includes("mocktail")
+  ) {
+    return "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=500&auto=format&fit=crop&q=80";
+  }
+  if (
+    lowerName.includes("dosa") || 
+    lowerName.includes("uttapam") || 
+    lowerName.includes("idli") ||
+    lowerName.includes("vada")
+  ) {
+    return "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&auto=format&fit=crop&q=80";
+  }
+  if (
+    lowerName.includes("paratha") || 
+    lowerName.includes("roti") || 
+    lowerName.includes("naan") || 
+    lowerName.includes("kulcha") ||
+    lowerName.includes("bread")
+  ) {
+    return "https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=500&auto=format&fit=crop&q=80";
+  }
+  if (
+    lowerName.includes("noodle") || 
+    lowerName.includes("chowmein") || 
+    lowerName.includes("chinese")
+  ) {
+    return "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500&auto=format&fit=crop&q=80";
+  }
+  if (
+    lowerName.includes("dal") || 
+    lowerName.includes("tadka") || 
+    lowerName.includes("makhani") ||
+    lowerName.includes("curry") ||
+    lowerName.includes("gravy")
+  ) {
+    return "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&auto=format&fit=crop&q=80";
+  }
+  if (
+    lowerName.includes("pakoda") || 
+    lowerName.includes("pakora") || 
+    lowerName.includes("fries") || 
+    lowerName.includes("finger") || 
+    lowerName.includes("tikki") || 
+    lowerName.includes("samosa") ||
+    lowerName.includes("rolls")
+  ) {
+    return "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500&auto=format&fit=crop&q=80";
+  }
+
+  // 3. Fallbacks based on category keys
+  if (item.category === "appetizers") {
+    return "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&auto=format&fit=crop&q=80";
+  }
+  if (item.category === "mains") {
+    return "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&auto=format&fit=crop&q=80";
+  }
+  if (item.category === "drinks") {
+    return "https://images.unsplash.com/photo-1497534446932-c925b458314e?w=400&auto=format&fit=crop&q=80";
+  }
+
+  return "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=80";
+};
+
 export const RAW_MENU: MenuItem[] = [
   // --- BREAKFAST ---
   {
@@ -833,85 +969,97 @@ export function MenuSection({}: MenuSectionProps) {
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.3 }}
                     key={item.id}
-                    className="group relative bg-white rounded-2xl border border-ivory-dark hover:border-gold-brand/60 p-5 transition-all shadow-sm hover:shadow-md flex flex-col justify-between"
+                    className="group relative bg-white rounded-3xl border border-ivory-dark/90 hover:border-gold-brand/60 overflow-hidden transition-all shadow-sm hover:shadow-md flex flex-col justify-between"
                   >
-                    {/* Corner Tag */}
-                    {item.tags && item.tags[0] && (
-                      <div className="absolute right-4 top-4 bg-ivory-brand text-emerald-brand text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border border-ivory-dark">
-                        {item.tags[0]}
-                      </div>
-                    )}
+                    {/* Premium 4:3 Dish Image Banner with Zoom Effect */}
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-ivory-brand border-b border-ivory-dark/40">
+                      <img
+                        src={getDishImage(item)}
+                        alt={item.name}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      />
+                      {/* Subtle elegant gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-                    <div className="space-y-3">
-                      {/* Name & Spiciness indicators */}
-                      <div className="space-y-1 font-sans">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-serif text-lg font-bold text-emerald-brand pr-12 group-hover:text-gold-brand transition">
+                      {/* Corner Tag layered over the photo */}
+                      {item.tags && item.tags[0] && (
+                        <div className="absolute right-3 top-3 bg-white/95 backdrop-blur-xs text-emerald-brand text-[9px] font-mono font-bold px-2.5 py-1 rounded-full border border-ivory-dark/50 shadow-xs">
+                          {item.tags[0]}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Card Content block */}
+                    <div className="p-5 flex flex-col justify-between flex-grow">
+                      <div className="space-y-2.5">
+                        {/* Name & Spiciness indicators */}
+                        <div className="space-y-1 font-sans">
+                          <h4 className="font-serif text-base font-bold text-emerald-brand pr-2 group-hover:text-gold-brand transition leading-tight">
                             {item.name}
                           </h4>
-                        </div>
-                        <div className="flex items-center gap-1">
+                          
                           {item.spiciness !== undefined && item.spiciness > 0 && (
-                            <div className="flex items-center text-[#C85C3A] gap-0.5">
+                            <div className="flex items-center text-[#C85C3A] gap-0.5 animate-pulse">
                               {Array.from({ length: item.spiciness }).map((_, i) => (
-                                <Flame key={i} className="w-3.5 h-3.5 fill-[#C85C3A] text-[#C85C3A]" />
+                                <Flame key={i} className="w-3 h-3 fill-[#C85C3A] text-[#C85C3A]" />
                               ))}
-                              <span className="text-[10px] font-mono text-charcoal-mid ml-1">Spicy</span>
+                              <span className="text-[9px] font-mono text-charcoal-mid ml-1">Spicy</span>
                             </div>
                           )}
                         </div>
-                      </div>
 
-                      {/* Brief description */}
-                      <p className="text-charcoal-mid text-xs leading-relaxed font-light font-sans">
-                        {item.description}
-                      </p>
+                        {/* Brief description */}
+                        <p className="text-charcoal-mid text-xs leading-relaxed font-light font-sans min-h-[34px] line-clamp-2">
+                          {item.description}
+                        </p>
 
-                      {/* Dietary specifics tags */}
-                      <div className="flex flex-wrap gap-1">
-                        {item.tags.slice(1).map((tag, idx) => (
-                          <span key={idx} className="bg-ivory-brand text-emerald-brand text-[9px] font-mono px-2 py-0.5 rounded-md border border-ivory-dark/40">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* bottom pricing & interactivity */}
-                    <div className="flex items-center justify-between pt-5 mt-4 border-t border-ivory-dark">
-                      <span className="font-mono text-base font-bold text-emerald-brand">
-                        ₹{item.price}
-                      </span>
-
-                      {/* Add button with animation toggle states */}
-                      <div className="flex items-center gap-2.5 bg-ivory-brand border border-ivory-dark rounded-lg p-1">
-                        {quantityInPlatter > 0 ? (
-                          <>
-                            <button
-                              onClick={() => updateCartQuantity(item.id, -1)}
-                              className="w-7 h-7 flex items-center justify-center rounded-md text-emerald-brand hover:bg-ivory-dark active:scale-90 transition cursor-pointer"
-                            >
-                              <Minus className="w-3.5 h-3.5" />
-                            </button>
-                            <span className="font-mono text-sm text-emerald-brand font-bold px-1">
-                              {quantityInPlatter}
+                        {/* Dietary specifics tags */}
+                        <div className="flex flex-wrap gap-1">
+                          {item.tags.slice(1).map((tag, idx) => (
+                            <span key={idx} className="bg-ivory-brand text-emerald-brand text-[9px] font-mono px-2 py-0.5 rounded border border-ivory-dark/40">
+                              {tag}
                             </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* bottom pricing & interactivity */}
+                      <div className="flex items-center justify-between pt-4 mt-4 border-t border-ivory-dark/50">
+                        <span className="font-mono text-sm font-bold text-emerald-brand bg-emerald-brand/5 px-2 py-1 rounded-lg border border-emerald-brand/15">
+                          ₹{item.price}
+                        </span>
+
+                        {/* Add button with animation toggle states */}
+                        <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/80 rounded-lg p-0.5">
+                          {quantityInPlatter > 0 ? (
+                            <>
+                              <button
+                                onClick={() => updateCartQuantity(item.id, -1)}
+                                className="w-6 h-6 flex items-center justify-center rounded text-emerald-brand hover:bg-ivory-dark active:scale-90 transition cursor-pointer"
+                              >
+                                <Minus className="w-3 h-3" />
+                              </button>
+                              <span className="font-mono text-xs text-emerald-brand font-bold px-1.5">
+                                {quantityInPlatter}
+                              </span>
+                              <button
+                                onClick={() => updateCartQuantity(item.id, 1)}
+                                className="w-6 h-6 flex items-center justify-center rounded bg-emerald-brand text-gold-brand hover:bg-emerald-mid active:scale-90 transition cursor-pointer"
+                              >
+                                <Plus className="w-3 h-3" />
+                              </button>
+                            </>
+                          ) : (
                             <button
                               onClick={() => updateCartQuantity(item.id, 1)}
-                              className="w-7 h-7 flex items-center justify-center rounded-md bg-emerald-brand text-gold-brand hover:bg-emerald-mid active:scale-90 transition cursor-pointer"
+                              className="flex items-center justify-center gap-1 px-3 py-1 text-[11px] font-bold text-emerald-brand hover:bg-emerald-brand hover:text-gold-brand rounded transition cursor-pointer font-sans"
                             >
-                              <Plus className="w-3.5 h-3.5" />
+                              <Plus className="w-3.5 h-3.5 font-bold" />
+                              <span>Add Platter</span>
                             </button>
-                          </>
-                        ) : (
-                          <button
-                            onClick={() => updateCartQuantity(item.id, 1)}
-                            className="flex items-center justify-center gap-1 px-3 py-1 text-xs font-bold text-emerald-brand hover:bg-emerald-brand hover:text-gold-brand rounded-md transition cursor-pointer font-sans"
-                          >
-                            <Plus className="w-3.5 h-3.5 font-bold" />
-                            <span>Add Platter</span>
-                          </button>
-                        )}
+                          )}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
