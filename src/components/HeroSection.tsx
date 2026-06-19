@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Utensils, CalendarDays, Sparkles, MapPin, ShieldCheck, Heart } from "lucide-react";
+import { Utensils, CalendarDays, Sparkles, MapPin, ShieldCheck, Heart, Instagram } from "lucide-react";
 
 interface HeroSectionProps {
   onNavigate: (section: "menu" | "booking" | "banquet" | "reviews") => void;
@@ -88,7 +88,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 pt-4"
+            className="flex flex-wrap gap-4 pt-4"
           >
             <button
               onClick={() => onNavigate("menu")}
@@ -104,6 +104,15 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
               <CalendarDays className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>Plan Banquet Event</span>
             </button>
+            <a
+              href="https://www.instagram.com/the_food_story_26?igsh=M2RxMG5hdjBvbXNx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 bg-amber-700/20 hover:bg-amber-700/40 text-gold-brand border border-gold-brand/35 font-bold px-8 py-4 rounded-xl transition duration-300 select-none cursor-pointer group text-sm uppercase tracking-wider"
+            >
+              <Instagram className="w-4 h-4 transition-transform group-hover:scale-110" />
+              <span>Instagram</span>
+            </a>
           </motion.div>
         </div>
 
@@ -149,7 +158,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
                 </div>
                 <button 
                   onClick={() => onNavigate("banquet")} 
-                  className="text-xs text-gold-brand font-bold hover:underline shrink-0"
+                  className="text-xs text-gold-brand font-bold hover:underline shrink-0 cursor-pointer"
                 >
                   Plan Now
                 </button>
