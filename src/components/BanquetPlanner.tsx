@@ -708,7 +708,7 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                 {accompanimentDiscount > 0 && (
                   <div className="flex justify-between items-center bg-emerald-mid p-2 rounded-lg border border-emerald-light/20">
                     <span className="text-[10.5px] text-gold-brand font-bold uppercase tracking-wide">Multi-Event Discount:</span>
-                    <span className="font-mono text-green-300 font-bold">
+                    <span className="font-mono text-gold-light font-bold">
                       -₹{accompanimentDiscount}
                     </span>
                   </div>
@@ -738,6 +738,7 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
               finalEstimatedTotal={finalEstimatedTotal}
               addonsDetail={addonsDetail}
               accompanimentDiscount={accompanimentDiscount}
+              selectedPkgIncludes={selectedPkg.includes}
             />
           </div>
 

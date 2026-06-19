@@ -13,6 +13,7 @@ interface ReservationFormProps {
   finalEstimatedTotal: number;
   addonsDetail: string;
   accompanimentDiscount: number;
+  selectedPkgIncludes?: string[];
 }
 
 export function ReservationForm({
@@ -26,6 +27,7 @@ export function ReservationForm({
   finalEstimatedTotal,
   addonsDetail,
   accompanimentDiscount,
+  selectedPkgIncludes = [],
 }: ReservationFormProps) {
   const [clientName, setClientName] = useState("");
   const [clientPhone, setClientPhone] = useState("");
@@ -109,6 +111,9 @@ export function ReservationForm({
 
   const handleWhatsAppExport = () => {
     const discountText = accompanimentDiscount > 0 ? `\n• *Combo Package Discount Applied:* -₹${accompanimentDiscount}` : "";
+    const includesText = selectedPkgIncludes && selectedPkgIncludes.length > 0 
+      ? `\n  *Selected Dishes List:*\n  ${selectedPkgIncludes.map((x, i) => `  ${i + 1}. ${x}`).join("\n  ")}`
+      : "";
     const whatsappMessage = 
 `*CONFIRMED BANQUET HALL RESERVATION PROPOSAL*
 ----------------------------------------
@@ -119,7 +124,7 @@ export function ReservationForm({
 • *Event Format:* ${selectedEventType}
 • *Expected Guest Count:* ${guestCount} Guests
 • *Atmosphere Theme:* ${selectedThemeName}
-• *Culinary Package:* ${selectedPkgName}
+• *Culinary Package:* ${selectedPkgName}${includesText}
 • *Live Add-ons chosen:* ${addonsDetail}${discountText}
 ----------------------------------------
 *Estimated Total Cost:* ₹${finalEstimatedTotal}

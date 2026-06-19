@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Search, Flame, Sparkles, Plus, Minus, ShoppingBag, ArrowRight, HeartCrack, HelpCircle, Share2, Check, Sparkle } from "lucide-react";
+import { Search, Flame, Sparkles, Plus, Minus, ShoppingBag, ArrowRight, HeartCrack, HelpCircle, Share2, Check, Sparkle, ChevronDown, ChevronUp } from "lucide-react";
 import { MenuItem } from "../types";
 
 export const getDishImage = (item: MenuItem): string => {
@@ -714,11 +714,11 @@ export function MenuSection({}: MenuSectionProps) {
   const [cravingSpice, setCravingSpice] = useState<"any" | "mild" | "fiery">("any");
   const [cravingDiet, setCravingDiet] = useState<"any" | "dairy-free" | "sattvic" | "dessert">("any");
 
-  const [visibleLimit, setVisibleLimit] = useState(6);
+  const [visibleLimit, setVisibleLimit] = useState(4);
 
   // Automatically reset visible limit when filters or searches change
   useEffect(() => {
-    setVisibleLimit(6);
+    setVisibleLimit(4);
   }, [selectedCategory, searchQuery, cravingSpice, cravingDiet]);
 
   const filteredItems = useMemo(() => {
@@ -974,125 +974,150 @@ export function MenuSection({}: MenuSectionProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Delicacy Cards Column */}
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
-            <AnimatePresence mode="popLayout">
-              {filteredItems.map((item) => {
-                const quantityInPlatter = cart[item.id] || 0;
-                return (
-                  <motion.div
-                    layout
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                    key={item.id}
-                    className="group relative bg-white rounded-3xl border border-ivory-dark/90 hover:border-gold-brand/60 overflow-hidden transition-all shadow-sm hover:shadow-md flex flex-col justify-between"
-                  >
-                    {/* Premium 4:3 Dish Image Banner with Zoom Effect */}
-                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-ivory-brand border-b border-ivory-dark/40">
-                      <img
-                        src={getDishImage(item)}
-                        alt={item.name}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      />
-                      {/* Subtle elegant gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+          <div className="lg:col-span-8 flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+              <AnimatePresence mode="popLayout">
+                {visibleItems.map((item) => {
+                  const quantityInPlatter = cart[item.id] || 0;
+                  return (
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3 }}
+                      key={item.id}
+                      className="group relative bg-white rounded-3xl border border-ivory-dark/90 hover:border-gold-brand/60 overflow-hidden transition-all shadow-sm hover:shadow-md flex flex-col justify-between"
+                    >
+                      {/* Premium 4:3 Dish Image Banner with Zoom Effect */}
+                      <div className="relative aspect-[4/3] w-full overflow-hidden bg-ivory-brand border-b border-ivory-dark/40">
+                        <img
+                          src={getDishImage(item)}
+                          alt={item.name}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                        />
+                        {/* Subtle elegant gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-                      {/* Corner Tag layered over the photo */}
-                      {item.tags && item.tags[0] && (
-                        <div className="absolute right-3 top-3 bg-white/95 backdrop-blur-xs text-emerald-brand text-[9px] font-mono font-bold px-2.5 py-1 rounded-full border border-ivory-dark/50 shadow-xs">
-                          {item.tags[0]}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Card Content block */}
-                    <div className="p-5 flex flex-col justify-between flex-grow">
-                      <div className="space-y-2.5">
-                        {/* Name & Spiciness indicators */}
-                        <div className="space-y-1 font-sans">
-                          <h4 className="font-serif text-base font-bold text-emerald-brand pr-2 group-hover:text-gold-brand transition leading-tight">
-                            {item.name}
-                          </h4>
-                          
-                          {item.spiciness !== undefined && item.spiciness > 0 && (
-                            <div className="flex items-center text-[#C85C3A] gap-0.5 animate-pulse">
-                              {Array.from({ length: item.spiciness }).map((_, i) => (
-                                <Flame key={i} className="w-3 h-3 fill-[#C85C3A] text-[#C85C3A]" />
-                              ))}
-                              <span className="text-[9px] font-mono text-charcoal-mid ml-1">Spicy</span>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Brief description */}
-                        <p className="text-charcoal-mid text-xs leading-relaxed font-light font-sans min-h-[34px] line-clamp-2">
-                          {item.description}
-                        </p>
-
-                        {/* Dietary specifics tags */}
-                        <div className="flex flex-wrap gap-1">
-                          {item.tags.slice(1).map((tag, idx) => (
-                            <span key={idx} className="bg-ivory-brand text-emerald-brand text-[9px] font-mono px-2 py-0.5 rounded border border-ivory-dark/40">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                        {/* Corner Tag layered over the photo */}
+                        {item.tags && item.tags[0] && (
+                          <div className="absolute right-3 top-3 bg-white/95 backdrop-blur-xs text-emerald-brand text-[9px] font-mono font-bold px-2.5 py-1 rounded-full border border-ivory-dark/50 shadow-xs">
+                            {item.tags[0]}
+                          </div>
+                        )}
                       </div>
 
-                      {/* bottom pricing & interactivity */}
-                      <div className="flex items-center justify-between pt-4 mt-4 border-t border-ivory-dark/50">
-                        <span className="font-mono text-sm font-bold text-emerald-brand bg-emerald-brand/5 px-2 py-1 rounded-lg border border-emerald-brand/15">
-                          ₹{item.price}
-                        </span>
+                      {/* Card Content block */}
+                      <div className="p-5 flex flex-col justify-between flex-grow">
+                        <div className="space-y-2.5">
+                          {/* Name & Spiciness indicators */}
+                          <div className="space-y-1 font-sans">
+                            <h4 className="font-serif text-base font-bold text-emerald-brand pr-2 group-hover:text-gold-brand transition leading-tight">
+                              {item.name}
+                            </h4>
+                            
+                            {item.spiciness !== undefined && item.spiciness > 0 && (
+                              <div className="flex items-center text-[#C85C3A] gap-0.5 animate-pulse">
+                                {Array.from({ length: item.spiciness }).map((_, i) => (
+                                  <Flame key={i} className="w-3 h-3 fill-[#C85C3A] text-[#C85C3A]" />
+                                ))}
+                                <span className="text-[9px] font-mono text-charcoal-mid ml-1">Spicy</span>
+                              </div>
+                            )}
+                          </div>
 
-                        {/* Add button with animation toggle states */}
-                        <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/80 rounded-lg p-0.5">
-                          {quantityInPlatter > 0 ? (
-                            <>
-                              <button
-                                onClick={() => updateCartQuantity(item.id, -1)}
-                                className="w-6 h-6 flex items-center justify-center rounded text-emerald-brand hover:bg-ivory-dark active:scale-90 transition cursor-pointer"
-                              >
-                                <Minus className="w-3 h-3" />
-                              </button>
-                              <span className="font-mono text-xs text-emerald-brand font-bold px-1.5">
-                                {quantityInPlatter}
+                          {/* Brief description */}
+                          <p className="text-charcoal-mid text-xs leading-relaxed font-light font-sans min-h-[34px] line-clamp-2">
+                            {item.description}
+                          </p>
+
+                          {/* Dietary specifics tags */}
+                          <div className="flex flex-wrap gap-1">
+                            {item.tags.slice(1).map((tag, idx) => (
+                              <span key={idx} className="bg-ivory-brand text-emerald-brand text-[9px] font-mono px-2 py-0.5 rounded border border-ivory-dark/40">
+                                {tag}
                               </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* bottom pricing & interactivity */}
+                        <div className="flex items-center justify-between pt-4 mt-4 border-t border-ivory-dark/50">
+                          <span className="font-mono text-sm font-bold text-emerald-brand bg-emerald-brand/5 px-2 py-1 rounded-lg border border-emerald-brand/15">
+                            ₹{item.price}
+                          </span>
+
+                          {/* Add button with animation toggle states */}
+                          <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/80 rounded-lg p-0.5">
+                            {quantityInPlatter > 0 ? (
+                              <>
+                                <button
+                                  onClick={() => updateCartQuantity(item.id, -1)}
+                                  className="w-6 h-6 flex items-center justify-center rounded text-emerald-brand hover:bg-ivory-dark active:scale-90 transition cursor-pointer"
+                                >
+                                  <Minus className="w-3 h-3" />
+                                </button>
+                                <span className="font-mono text-xs text-emerald-brand font-bold px-1.5">
+                                  {quantityInPlatter}
+                                </span>
+                                <button
+                                  onClick={() => updateCartQuantity(item.id, 1)}
+                                  className="w-6 h-6 flex items-center justify-center rounded bg-emerald-brand text-gold-brand hover:bg-emerald-mid active:scale-90 transition cursor-pointer"
+                                >
+                                  <Plus className="w-3 h-3" />
+                                </button>
+                              </>
+                            ) : (
                               <button
                                 onClick={() => updateCartQuantity(item.id, 1)}
-                                className="w-6 h-6 flex items-center justify-center rounded bg-emerald-brand text-gold-brand hover:bg-emerald-mid active:scale-90 transition cursor-pointer"
+                                className="flex items-center justify-center gap-1 px-3 py-1 text-[11px] font-bold text-emerald-brand hover:bg-emerald-brand hover:text-gold-brand rounded transition cursor-pointer font-sans"
                               >
-                                <Plus className="w-3 h-3" />
+                                <Plus className="w-3.5 h-3.5 font-bold" />
+                                <span>Add Platter</span>
                               </button>
-                            </>
-                          ) : (
-                            <button
-                              onClick={() => updateCartQuantity(item.id, 1)}
-                              className="flex items-center justify-center gap-1 px-3 py-1 text-[11px] font-bold text-emerald-brand hover:bg-emerald-brand hover:text-gold-brand rounded transition cursor-pointer font-sans"
-                            >
-                              <Plus className="w-3.5 h-3.5 font-bold" />
-                              <span>Add Platter</span>
-                            </button>
-                          )}
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-            {filteredItems.length === 0 && (
-              <div className="col-span-full py-12 text-center text-charcoal-mid space-y-2 bg-white rounded-2xl border border-ivory-dark">
-                <HeartCrack className="w-8 h-8 mx-auto text-[#C85C3A]/60" />
-                <p className="text-sm font-light">No delicacies match your selected cravings or categories.</p>
-                <button
-                  onClick={resetCravingFilters}
-                  className="text-xs text-gold-brand font-bold uppercase tracking-wider font-mono hover:underline"
-                >
-                  Clear sensory filters
-                </button>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+              {filteredItems.length === 0 && (
+                <div className="col-span-full py-12 text-center text-charcoal-mid space-y-2 bg-white rounded-2xl border border-ivory-dark">
+                  <HeartCrack className="w-8 h-8 mx-auto text-[#C85C3A]/60" />
+                  <p className="text-sm font-light">No delicacies match your selected cravings or categories.</p>
+                  <button
+                    onClick={resetCravingFilters}
+                    className="text-xs text-gold-brand font-bold uppercase tracking-wider font-mono hover:underline"
+                  >
+                    Clear sensory filters
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* See More button / load count toggle */}
+            {filteredItems.length > 4 && (
+              <div className="flex flex-col items-center justify-center gap-2 pt-2">
+                {visibleLimit < filteredItems.length ? (
+                  <button
+                    onClick={() => setVisibleLimit(filteredItems.length)}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-brand hover:bg-emerald-mid text-white rounded-xl text-xs font-bold uppercase tracking-wide transition active:scale-95 cursor-pointer font-sans shadow-sm"
+                  >
+                    <ChevronDown className="w-4 h-4 text-gold-brand shrink-0" />
+                    <span>See More ({filteredItems.length - 4} more dishes)</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setVisibleLimit(4)}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-white border border-ivory-dark text-emerald-brand hover:bg-ivory-brand rounded-xl text-xs font-bold uppercase tracking-wide transition active:scale-95 cursor-pointer font-sans shadow-sm"
+                  >
+                    <ChevronUp className="w-4 h-4 text-gold-brand shrink-0" />
+                    <span>See Less</span>
+                  </button>
+                )}
               </div>
             )}
           </div>

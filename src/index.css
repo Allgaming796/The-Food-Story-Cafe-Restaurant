@@ -7,16 +7,16 @@
   --font-mono: "Fira Code", monospace;
   --font-cormorant: "Cormorant Garamond", serif;
 
-  /* Custom palette matching the elegant HTML prototype */
+  /* Custom palette redefined from green/emerald to luxurious cream & coffee */
   --color-gold-brand: #E8A020;
   --color-gold-light: #F2BD5E;
-  --color-emerald-brand: #1C3A2B;
-  --color-emerald-mid: #2C5440;
-  --color-emerald-light: #3D7057;
-  --color-ivory-brand: #FDF6EC;
-  --color-ivory-dark: #F3E8D4;
-  --color-terra-brand: #C85C3A;
-  --color-slate-white: #FFFDF7;
+  --color-emerald-brand: #4A3525;   /* Luxurious dark cocoa-coffee backdrops */
+  --color-emerald-mid: #6E503B;     /* Warm toasted mocha / caramel accents */
+  --color-emerald-light: #977A5E;   /* Warm soft shahi latte */
+  --color-ivory-brand: #FAF4E8;     /* Exquisite rich warm cream background */
+  --color-ivory-dark: #EADEC9;      /* Golden toasted cream/cookie border */
+  --color-terra-brand: #C85C3A;     /* Spicy Lucknowi terracotta */
+  --color-slate-white: #FFFDF5;     /* Pure soft milk cream */
   --color-charcoal-dark: #1A1A1A;
   --color-charcoal-mid: #4A4A4A;
 }

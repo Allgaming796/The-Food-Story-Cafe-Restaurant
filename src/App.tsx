@@ -17,7 +17,8 @@ import {
   Heart,
   Share2,
   Copy,
-  Check
+  Check,
+  Instagram
 } from "lucide-react";
 
 // Substructure component imports
@@ -92,14 +93,25 @@ export default function App() {
             </div>
           </div>
 
-          {/* Contact us direct button */}
-          <a 
-            href="tel:+917752817300"
-            className="flex items-center gap-1.5 px-4 py-2 border border-gold-brand/35 bg-gold-brand hover:bg-gold-light text-emerald-brand rounded-xl text-xs font-bold cursor-pointer transition shadow-sm uppercase tracking-wide"
-          >
-            <PhoneCall className="w-3.5 h-3.5" />
-            <span>Call to Book</span>
-          </a>
+          {/* Contact us direct button & social */}
+          <div className="flex items-center gap-3">
+            <a 
+              href="https://www.instagram.com/the_food_story_26?igsh=M2RxMG5hdjBvbXNx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-9 h-9 border border-gold-brand/35 bg-emerald-mid hover:bg-emerald-light text-gold-brand hover:text-white rounded-xl transition shadow-sm cursor-pointer"
+              title="Follow us on Instagram"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
+            <a 
+              href="tel:+917752817300"
+              className="flex items-center gap-1.5 px-4 py-2 border border-gold-brand/35 bg-gold-brand hover:bg-gold-light text-emerald-brand rounded-xl text-xs font-bold cursor-pointer transition shadow-sm uppercase tracking-wide"
+            >
+              <PhoneCall className="w-3.5 h-3.5" />
+              <span>Call to Book</span>
+            </a>
+          </div>
         </div>
       </header>
 
@@ -253,13 +265,24 @@ export default function App() {
                 The Food Story
               </p>
             </div>
-            <div className="inline-flex items-center gap-1.5 bg-emerald-mid border border-emerald-light/40 px-3 py-1 rounded-full text-xs text-green-300 font-mono">
+            <div className="inline-flex items-center gap-1.5 bg-emerald-mid border border-emerald-light/40 px-3 py-1 rounded-full text-xs text-gold-light font-mono">
               <span>🌿</span>
               <span>100% Pure Vegetarian Restaurant</span>
             </div>
             <p className="text-gray-300 text-xs font-light leading-relaxed max-w-sm">
               An elegant saga of pure vegetarian hand-stretched recipes, slow charcoal-cooked copper handis, and memorable banquet celebrations at Bisrat Road, Shahjahanpur.
             </p>
+            <div className="pt-1.5 flex items-center">
+              <a 
+                href="https://www.instagram.com/the_food_story_26?igsh=M2RxMG5hdjBvbXNx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-mid border border-emerald-light/30 rounded-xl text-xs text-gold-light hover:text-white transition-all font-mono"
+              >
+                <Instagram className="w-3.5 h-3.5" />
+                <span>Follow @the_food_story_26</span>
+              </a>
+            </div>
           </div>
 
           {/* Quick Directory links */}
