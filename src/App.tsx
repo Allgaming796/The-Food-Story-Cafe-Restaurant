@@ -15,23 +15,35 @@ import {
   MapPin, 
   Volume2, 
   Heart,
-  Share2
+  Share2,
+  Copy,
+  Check
 } from "lucide-react";
 
 // Substructure component imports
 import { HeroSection } from "./components/HeroSection";
 import { MenuSection } from "./components/MenuSection";
+import { TableBooking } from "./components/TableBooking";
 import { BanquetPlanner } from "./components/BanquetPlanner";
 import { ReviewsSection } from "./components/ReviewsSection";
 import { GallerySection } from "./components/GallerySection";
 import { FAQSection } from "./components/FAQSection";
 
-type ActiveTab = "menu" | "banquet" | "reviews";
+type ActiveTab = "menu" | "booking" | "banquet" | "reviews";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("menu");
+  const [copiedAddress, setCopiedAddress] = useState(false);
 
-  const handleHeroNavigation = (section: "menu" | "banquet" | "reviews") => {
+  const handleCopyAddress = () => {
+    const addressText = "The Food Story, Diwan Jograj, Near Pratap Enclave Colony, Bisrat Road, Hanumat Dham Rd, Shahjahanpur, Uttar Pradesh - 242001";
+    navigator.clipboard.writeText(addressText).then(() => {
+      setCopiedAddress(true);
+      setTimeout(() => setCopiedAddress(false), 2000);
+    });
+  };
+
+  const handleHeroNavigation = (section: "menu" | "booking" | "banquet" | "reviews") => {
     setActiveTab(section);
     const element = document.getElementById("active-module-anchor");
     if (element) {
@@ -119,6 +131,23 @@ export default function App() {
                 )}
               </button>
 
+              {/* Table Booking Module tab */}
+              <button
+                onClick={() => setActiveTab("booking")}
+                className={`relative px-4 py-4.5 text-xs sm:text-sm font-semibold tracking-wider uppercase cursor-pointer flex items-center gap-2 transition select-none ${
+                  activeTab === "booking" ? "text-gold-brand font-bold" : "text-gray-300 hover:text-white"
+                }`}
+              >
+                <Clock className="w-4 h-4" />
+                <span>Reserve Table</span>
+                {activeTab === "booking" && (
+                  <motion.div
+                    layoutId="activeTabUnderline"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold-brand"
+                  />
+                )}
+              </button>
+
               {/* Banquet Hall Module tab */}
               <button
                 onClick={() => setActiveTab("banquet")}
@@ -174,6 +203,9 @@ export default function App() {
             >
               {activeTab === "menu" && (
                 <MenuSection />
+              )}
+              {activeTab === "booking" && (
+                <TableBooking />
               )}
               {activeTab === "banquet" && (
                 <BanquetPlanner />
@@ -238,11 +270,30 @@ export default function App() {
             <div className="space-y-2.5 text-xs text-gray-300 font-light leading-relaxed">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-gold-brand shrink-0 mt-0.5" />
-                <span>
-                  Diwan Jograj, Near Pratap Enclave Colony,<br />
-                  Bisrat Road, Hanumat Dham Rd,<br />
-                  Shahjahanpur, Uttar Pradesh – 242001
-                </span>
+                <div className="space-y-1.5 flex-1">
+                  <p className="leading-relaxed">
+                    Diwan Jograj, Near Pratap Enclave Colony,<br />
+                    Bisrat Road, Hanumat Dham Rd,<br />
+                    Shahjahanpur, Uttar Pradesh – 242001
+                  </p>
+                  <button
+                    onClick={handleCopyAddress}
+                    type="button"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-mid/95 border border-emerald-light/40 text-[10px] font-mono text-gray-200 hover:text-white rounded-md transition hover:bg-emerald-light/20 active:scale-95 cursor-pointer max-w-max"
+                  >
+                    {copiedAddress ? (
+                      <>
+                        <Check className="w-3 h-3 text-gold-brand" />
+                        <span className="text-gold-brand text-[9px] uppercase tracking-wider font-semibold">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3 text-gold-brand" />
+                        <span>Copy Address</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="flex items-center gap-2.5">
                 <Clock className="w-4 h-4 text-gold-brand shrink-0" />

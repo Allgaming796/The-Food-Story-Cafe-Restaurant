@@ -7,6 +7,12 @@ export const getDishImage = (item: MenuItem): string => {
   const lowerName = item.name.toLowerCase();
 
   // 1. Direct matching to custom generated AI food images
+  if (lowerName.includes("pav bhaji") || item.id === "bf7") {
+    return "/src/assets/images/pav_bhaji_deluxe_1781831942822.jpg";
+  }
+  if (lowerName.includes("aloo paratha") || item.id === "bf2") {
+    return "/src/assets/images/aloo_paratha_deluxe_1781831957455.jpg";
+  }
   if (lowerName.includes("maggi") || lowerName.includes("noodles")) {
     return "/src/assets/images/veg_masala_maggi_1781825948836.jpg";
   }

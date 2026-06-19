@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Utensils, CalendarDays, Sparkles, MapPin, ShieldCheck, Heart } from "lucide-react";
 
 interface HeroSectionProps {
-  onNavigate: (section: "menu" | "banquet" | "reviews") => void;
+  onNavigate: (section: "menu" | "booking" | "banquet" | "reviews") => void;
 }
 
 export function HeroSection({ onNavigate }: HeroSectionProps) {
