@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Search, Flame, Sparkles, Plus, Minus, ShoppingBag, ArrowRight, HeartCrack, HelpCircle, Share2, Check, Sparkle } from "lucide-react";
 import { MenuItem } from "../types";
@@ -714,6 +714,13 @@ export function MenuSection({}: MenuSectionProps) {
   const [cravingSpice, setCravingSpice] = useState<"any" | "mild" | "fiery">("any");
   const [cravingDiet, setCravingDiet] = useState<"any" | "dairy-free" | "sattvic" | "dessert">("any");
 
+  const [visibleLimit, setVisibleLimit] = useState(6);
+
+  // Automatically reset visible limit when filters or searches change
+  useEffect(() => {
+    setVisibleLimit(6);
+  }, [selectedCategory, searchQuery, cravingSpice, cravingDiet]);
+
   const filteredItems = useMemo(() => {
     return RAW_MENU.filter((item) => {
       // Standard category matching
@@ -746,6 +753,10 @@ export function MenuSection({}: MenuSectionProps) {
       return matchCategory && matchSearch && matchSpice && matchDiet;
     });
   }, [selectedCategory, searchQuery, cravingSpice, cravingDiet]);
+
+  const visibleItems = useMemo(() => {
+    return filteredItems.slice(0, visibleLimit);
+  }, [filteredItems, visibleLimit]);
 
   const updateCartQuantity = (id: string, delta: number) => {
     setCart((prev) => {
