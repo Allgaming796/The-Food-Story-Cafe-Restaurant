@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Utensils, CalendarDays, Sparkles, MapPin, ShieldCheck, Heart, Instagram } from "lucide-react";
+import { Utensils, CalendarDays, Sparkles, MapPin, ShieldCheck, Heart, Instagram, Facebook } from "lucide-react";
 
 interface HeroSectionProps {
   onNavigate: (section: "menu" | "booking" | "banquet" | "reviews") => void;
@@ -112,6 +112,15 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
             >
               <Instagram className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>Instagram</span>
+            </a>
+            <a
+              href="https://www.facebook.com/share/1JMu3mt7Hx/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 bg-blue-900/20 hover:bg-blue-900/40 text-blue-200 border border-blue-800/30 font-bold px-8 py-4 rounded-xl transition duration-300 select-none cursor-pointer group text-sm uppercase tracking-wider"
+            >
+              <Facebook className="w-4 h-4 transition-transform group-hover:scale-110" />
+              <span>Facebook</span>
             </a>
           </motion.div>
         </div>
