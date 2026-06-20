@@ -30,6 +30,7 @@ import { BanquetPlanner } from "./components/BanquetPlanner";
 import { ReviewsSection } from "./components/ReviewsSection";
 import { FAQSection } from "./components/FAQSection";
 import { DineInStatus } from "./components/DineInStatus";
+import { WhyChooseUs } from "./components/WhyChooseUs";
 
 type ActiveTab = "menu" | "booking" | "banquet" | "reviews";
 
@@ -256,6 +257,9 @@ export default function App() {
             </motion.div>
           </AnimatePresence>
         </motion.div>
+
+        {/* Why Choose Us feature lists trust section */}
+        <WhyChooseUs />
       </main>
 
       {/* Elegant Footer panel */}

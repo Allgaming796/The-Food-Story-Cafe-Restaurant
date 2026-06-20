@@ -709,7 +709,7 @@ export function MenuSection({}: MenuSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<"all" | "appetizers" | "mains" | "drinks" | "desserts">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [cart, setCart] = useState<{ [id: string]: number }>({});
-  const [itemSizes, setItemSizes] = useState<{ [id: string]: "small" | "large" }>({});
+  const [itemSizes, setItemSizes] = useState<{ [id: string]: "small" | "medium" | "large" }>({});
 
   // Dine-in sync states
   const [dineInInfo, setDineInInfo] = useState<{
@@ -810,7 +810,7 @@ export function MenuSection({}: MenuSectionProps) {
     return filteredItems.slice(0, visibleLimit);
   }, [filteredItems, visibleLimit]);
 
-  const updateCartQuantity = (id: string, size: "small" | "large", delta: number) => {
+  const updateCartQuantity = (id: string, size: "small" | "medium" | "large", delta: number) => {
     const cartKey = `${id}_${size}`;
     setCart((prev) => {
       const current = prev[cartKey] || 0;
@@ -826,9 +826,25 @@ export function MenuSection({}: MenuSectionProps) {
 
   const cartList = useMemo(() => {
     return Object.entries(cart).map(([key, qty]) => {
-      const [id, size] = key.split("_") as [string, "small" | "large"];
+      const [id, size] = key.split("_") as [string, "small" | "medium" | "large"];
       const menuObj = RAW_MENU.find((it) => it.id === id)!;
-      const price = size === "small" ? Math.round(menuObj.price * 0.65) : menuObj.price;
+      const isPizza = menuObj.name.toLowerCase().includes("pizza") || menuObj.tags.includes("Sourdough Pizza") || menuObj.id.startsWith("pz");
+      
+      let price = menuObj.price;
+      if (isPizza) {
+        if (size === "small") {
+          price = Math.round(menuObj.price * 0.5);
+        } else if (size === "medium") {
+          price = Math.round(menuObj.price * 0.75);
+        } else {
+          price = menuObj.price;
+        }
+      } else {
+        if (size === "small") {
+          price = Math.round(menuObj.price * 0.65);
+        }
+      }
+
       return { item: menuObj, size, price, quantity: qty, key };
     });
   }, [cart]);
@@ -844,8 +860,15 @@ export function MenuSection({}: MenuSectionProps) {
     if (cartList.length === 0) return;
     const itemsText = cartList
       .map((c) => {
-        const isPz = c.item.tags.includes("Sourdough Pizza") || c.item.id.startsWith("pz");
-        const displayLabel = c.size === "small" ? (isPz ? "Medium Pizza" : "Small Portion") : (isPz ? "Large Pizza" : "Large Portion");
+        const isPz = c.item.name.toLowerCase().includes("pizza") || c.item.tags.includes("Sourdough Pizza") || c.item.id.startsWith("pz");
+        let displayLabel = "Standard Portion";
+        if (isPz) {
+          if (c.size === "small") displayLabel = "Small Pizza";
+          else if (c.size === "medium") displayLabel = "Medium Pizza";
+          else displayLabel = "Large Pizza";
+        } else {
+          displayLabel = c.size === "small" ? "Small Portion" : "Large Portion";
+        }
         return `• *${c.quantity}* × ${c.item.name} (${displayLabel} - ₹${c.price} each)`;
       })
       .join("\n");
@@ -1200,11 +1223,12 @@ export function MenuSection({}: MenuSectionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
               <AnimatePresence mode="popLayout">
                 {visibleItems.map((item) => {
-                  const isPizza = item.name.toLowerCase().includes("pizza");
+                  const isPizza = item.name.toLowerCase().includes("pizza") || item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz");
                   const size = isPizza ? (itemSizes[item.id] || "large") : "large";
-                  const smallPrice = Math.round(item.price * 0.65);
+                  const smallPrice = Math.round(item.price * 0.5);
+                  const mediumPrice = Math.round(item.price * 0.75);
                   const largePrice = item.price;
-                  const activePrice = size === "small" ? smallPrice : largePrice;
+                  const activePrice = size === "small" ? smallPrice : size === "medium" ? mediumPrice : largePrice;
                   const cartKey = `${item.id}_${size}`;
                   const quantityInPlatter = cart[cartKey] || 0;
 
@@ -1276,24 +1300,36 @@ export function MenuSection({}: MenuSectionProps) {
 
                           {/* Portion Size Selection buttons */}
                           {isPizza && (
-                            <div className="flex gap-2 pt-2 bg-ivory-brand/45 p-1 rounded-xl border border-ivory-dark/40 select-none">
+                            <div className="flex gap-1.5 pt-2 bg-ivory-brand/45 p-1 rounded-xl border border-ivory-dark/40 select-none">
                               <button
                                 role="radio"
                                 aria-checked={size === "small"}
                                 onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "small" }))}
-                                className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
+                                className={`flex-1 py-1 px-1 rounded-lg text-[8px] sm:text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
                                   size === "small"
                                     ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
                                     : "text-charcoal-mid hover:text-emerald-brand bg-white"
                                 }`}
                               >
-                                {(item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium" : "Small"} (₹{smallPrice})
+                                Small (₹{smallPrice})
+                              </button>
+                              <button
+                                role="radio"
+                                aria-checked={size === "medium"}
+                                onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "medium" }))}
+                                className={`flex-1 py-1 px-1 rounded-lg text-[8px] sm:text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
+                                  size === "medium"
+                                    ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
+                                    : "text-charcoal-mid hover:text-emerald-brand bg-white"
+                                }`}
+                              >
+                                Medium (₹{mediumPrice})
                               </button>
                               <button
                                 role="radio"
                                 aria-checked={size === "large"}
                                 onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "large" }))}
-                                className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
+                                className={`flex-1 py-1 px-1 rounded-lg text-[8px] sm:text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
                                   size === "large"
                                     ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
                                     : "text-charcoal-mid hover:text-emerald-brand bg-white"
@@ -1309,7 +1345,7 @@ export function MenuSection({}: MenuSectionProps) {
                         <div className="flex items-center justify-between pt-3 mt-3 border-t border-ivory-dark/50">
                           <div className="flex flex-col text-left">
                             <span className="text-[9px] font-bold tracking-wider font-mono text-charcoal-mid uppercase leading-none mb-1">
-                              {isPizza ? (size === "small" ? "Medium Pizza" : "Large Pizza") : "Standard Portion"}
+                              {isPizza ? (size === "small" ? "Small Pizza" : size === "medium" ? "Medium Pizza" : "Large Pizza") : "Standard Portion"}
                             </span>
                             <span className="font-mono text-xs sm:text-sm font-bold text-emerald-brand">
                               ₹{activePrice}
