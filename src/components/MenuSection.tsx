@@ -389,7 +389,7 @@ export const RAW_MENU: MenuItem[] = [
   // --- STONEFIRED PIZZAS ---
   {
     id: "pz1",
-    name: "Margherita Pizza (Medium)",
+    name: "Margherita Pizza",
     description: "Double-fermented stonefired dough crust topped with sweet plum tomato base and premium gooey mozzarella.",
     price: 249,
     category: "mains",
@@ -398,7 +398,7 @@ export const RAW_MENU: MenuItem[] = [
   },
   {
     id: "pz2",
-    name: "Paneer Makhani Pizza (Medium)",
+    name: "Paneer Makhani Pizza",
     description: "Gourmet crust covered in creamy spiced sweet butter-gravy, chargrilled paneer cubes, and sliced bell peppers.",
     price: 299,
     category: "mains",
@@ -407,7 +407,7 @@ export const RAW_MENU: MenuItem[] = [
   },
   {
     id: "pz3",
-    name: "Farm House Pizza (Medium)",
+    name: "Farm House Pizza",
     description: "Loaded with hand-chopped mushrooms, capsicums, red ripe tomatoes, and sweet gold corn on blistered dough.",
     price: 349,
     category: "mains",
@@ -416,7 +416,7 @@ export const RAW_MENU: MenuItem[] = [
   },
   {
     id: "pz4",
-    name: "TFS Special Pizza (Medium)",
+    name: "TFS Special Pizza",
     description: "Our signature double-baked pizza doused in premium cheeses, special hot peppers, and garden-fresh assortments.",
     price: 379,
     category: "mains",
@@ -711,6 +711,46 @@ export function MenuSection({}: MenuSectionProps) {
   const [cart, setCart] = useState<{ [id: string]: number }>({});
   const [itemSizes, setItemSizes] = useState<{ [id: string]: "small" | "large" }>({});
 
+  // Dine-in sync states
+  const [dineInInfo, setDineInInfo] = useState<{
+    isInRestaurant: boolean;
+    tableNumber: string;
+    hallNumber: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const syncDineIn = () => {
+      const savedInRestaurant = localStorage.getItem("tfs_dine_in") === "true";
+      const savedSubmitted = localStorage.getItem("tfs_dine_in_submitted") === "true";
+      const savedTable = localStorage.getItem("tfs_table_num") || "";
+      const savedHall = localStorage.getItem("tfs_hall_num") || "";
+
+      if (savedInRestaurant && savedSubmitted && savedTable && savedHall) {
+        setDineInInfo({
+          isInRestaurant: true,
+          tableNumber: savedTable,
+          hallNumber: savedHall,
+        });
+      } else {
+        setDineInInfo(null);
+      }
+    };
+
+    // Run immediately on mount
+    syncDineIn();
+
+    // Check periodically for changes (since it's a single page app)
+    const intervalId = setInterval(syncDineIn, 1000);
+
+    // Also listen to storage events
+    window.addEventListener("storage", syncDineIn);
+
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener("storage", syncDineIn);
+    };
+  }, []);
+
   // Match My Craving filter states
   const [cravingSpice, setCravingSpice] = useState<"any" | "mild" | "fiery">("any");
   const [cravingDiet, setCravingDiet] = useState<"any" | "dairy-free" | "sattvic" | "dessert">("any");
@@ -803,9 +843,20 @@ export function MenuSection({}: MenuSectionProps) {
   const handleShareOnWhatsApp = () => {
     if (cartList.length === 0) return;
     const itemsText = cartList
-      .map((c) => `• *${c.quantity}* × ${c.item.name} (${c.size === "small" ? "Small Portion" : "Large Portion"} - ₹${c.price} each)`)
+      .map((c) => {
+        const isPz = c.item.tags.includes("Sourdough Pizza") || c.item.id.startsWith("pz");
+        const displayLabel = c.size === "small" ? (isPz ? "Medium Pizza" : "Small Portion") : (isPz ? "Large Pizza" : "Large Portion");
+        return `• *${c.quantity}* × ${c.item.name} (${displayLabel} - ₹${c.price} each)`;
+      })
       .join("\n");
-    const textMsg = `Hello! I have created a custom events catering platter estimate at *The Food Story Café & Restaurant* on your portal:\n\n${itemsText}\n\n*Total Combined Estimated Budget:* ₹${cartTotal}\n\nCan you please check availability and pricing options for our upcoming celebration?`;
+
+    let textMsg = "";
+    if (dineInInfo) {
+      textMsg = `Greetings! I am currently seated at *The Food Story Café & Restaurant* and would like to place an order directly to my table:\n\n📍 *DINE-IN LOCATION:* \n• *Table Number:* ${dineInInfo.tableNumber}\n• *Seating Zone/Hall:* ${dineInInfo.hallNumber}\n\n📖 *ORDER ITEMS:*\n${itemsText}\n\n*Total Combined Bill Amount:* ₹${cartTotal}\n\nPlease confirm my order and start preparation. Thank you!`;
+    } else {
+      textMsg = `Hello! I have created a custom events catering platter estimate at *The Food Story Café & Restaurant* on your portal:\n\n${itemsText}\n\n*Total Combined Estimated Budget:* ₹${cartTotal}\n\nCan you please check availability and pricing options for our upcoming celebration?`;
+    }
+
     const encryptedMsg = encodeURIComponent(textMsg);
     window.open(`https://wa.me/917752817300?text=${encryptedMsg}`, "_blank");
   };
@@ -1047,55 +1098,46 @@ export function MenuSection({}: MenuSectionProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-3">
             {CULINARY_SECTIONS.map((sec) => {
               const isSelected = selectedCategory === sec.id;
               return (
                 <button
                   key={sec.id}
                   onClick={() => setSelectedCategory(sec.id)}
-                  className={`text-left rounded-xl p-4 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[190px] h-full ${sec.bgColor} ${sec.borderColor} hover:-translate-y-1 hover:shadow-md focus:outline-none ${
+                  className={`text-left rounded-lg p-2 sm:p-3 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[72px] sm:min-h-[105px] h-full ${sec.bgColor} ${sec.borderColor} hover:-translate-y-0.5 hover:shadow-xs focus:outline-none ${
                     isSelected
-                      ? "ring-2 ring-gold-brand border-gold-brand shadow-md scale-[1.01]"
+                      ? "ring-2 ring-gold-brand border-gold-brand shadow-sm scale-[1.01]"
                       : "opacity-95 hover:opacity-100"
                   }`}
                 >
                   {/* Body Info */}
-                  <div className="space-y-2">
+                  <div className="space-y-0.5 sm:space-y-1 w-full">
                     <div className="flex items-center justify-between">
-                      <span className="text-xl">
+                      <span className="text-base sm:text-lg">
                         {sec.icon}
                       </span>
-                      <span className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded-full border ${isSelected ? "bg-emerald-brand text-gold-brand border-gold-brand/30" : "bg-white text-charcoal-dark border-ivory-dark"}`}>
-                        {sec.count} items
+                      <span className={`text-[7.5px] sm:text-[9px] font-bold font-mono px-1 sm:px-1.5 py-0.5 rounded-full border ${isSelected ? "bg-emerald-brand text-gold-brand border-gold-brand/30" : "bg-white text-charcoal-dark border-ivory-dark"}`}>
+                        {sec.count} <span className="hidden sm:inline">items</span>
                       </span>
                     </div>
 
-                    <h4 className={`font-serif text-base font-bold leading-tight ${sec.accentTextColor}`}>
+                    <h4 className={`font-serif text-xs sm:text-sm font-bold leading-tight truncate ${sec.accentTextColor}`}>
                       {sec.title}
                     </h4>
                     
-                    <span className="block text-[9px] uppercase tracking-wide font-mono font-bold text-charcoal-mid leading-relaxed select-none">
+                    <span className="hidden sm:block text-[8px] uppercase tracking-wide font-mono font-bold text-charcoal-mid leading-none select-none">
                       {sec.subtitle}
                     </span>
-
-                    <p className="text-charcoal-dark text-[11px] font-light leading-relaxed line-clamp-3 font-sans">
-                      {sec.description}
-                    </p>
                   </div>
 
                   {/* Chef tip & active highlight */}
-                  <div className="space-y-1.5 mt-3 pt-2.5 border-t border-dashed border-charcoal-mid/10 w-full">
-                    <div className="flex gap-1 text-[9.5px] text-charcoal-mid/95 select-none leading-none">
-                      <span className="shrink-0 text-gold-brand">💡</span>
-                      <span className="font-sans italic line-clamp-1">{sec.chefNote}</span>
-                    </div>
-
-                    <div className="w-full flex items-center justify-between pt-1">
-                      <span className="text-[9px] font-bold tracking-widest font-mono uppercase bg-white px-1.5 py-0.5 rounded border border-ivory-dark/65">
+                  <div className="hidden sm:block space-y-1 mt-1.5 pt-1.5 border-t border-dashed border-charcoal-mid/10 w-full">
+                    <div className="w-full flex items-center justify-between pt-0.5">
+                      <span className="text-[8px] font-bold tracking-widest font-mono uppercase bg-white px-1 py-0.5 rounded border border-ivory-dark/65">
                         {sec.badge}
                       </span>
-                      <span className={`text-[9px] font-bold font-mono tracking-wider ${isSelected ? 'text-gold-brand underline decoration-gold-brand decoration-2' : 'text-charcoal-mid'}`}>
+                      <span className={`text-[8px] font-bold font-mono tracking-wider ${isSelected ? 'text-gold-brand underline decoration-gold-brand' : 'text-charcoal-mid'}`}>
                         {isSelected ? "● FILTERED" : "○ SHOW ALL"}
                       </span>
                     </div>
@@ -1243,7 +1285,7 @@ export function MenuSection({}: MenuSectionProps) {
                                   : "text-charcoal-mid hover:text-emerald-brand bg-white"
                               }`}
                             >
-                              Small (₹{smallPrice})
+                              {(item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium" : "Small"} (₹{smallPrice})
                             </button>
                             <button
                               role="radio"
@@ -1264,7 +1306,7 @@ export function MenuSection({}: MenuSectionProps) {
                         <div className="flex items-center justify-between pt-3 mt-3 border-t border-ivory-dark/50">
                           <div className="flex flex-col text-left">
                             <span className="text-[9px] font-bold tracking-wider font-mono text-charcoal-mid uppercase leading-none mb-1">
-                              {size === "small" ? "Small Portion" : "Large Portion"}
+                              {size === "small" ? ((item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium Pizza" : "Small Portion") : ((item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Large Pizza" : "Large Portion")}
                             </span>
                             <span className="font-mono text-xs sm:text-sm font-bold text-emerald-brand">
                               ₹{activePrice}
@@ -1390,7 +1432,7 @@ export function MenuSection({}: MenuSectionProps) {
                     >
                       <div className="flex-grow min-w-0">
                         <p className="font-bold text-white truncate text-xs">
-                          {item.name} <span className="text-[10.5px] text-gold-brand font-medium">({size === "small" ? "Small" : "Large"})</span>
+                          {item.name} <span className="text-[10.5px] text-gold-brand font-medium">({size === "small" ? ((item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium" : "Small") : "Large"})</span>
                         </p>
                         <p className="text-[10px] text-gold-light font-mono font-semibold">
                           ₹{price} × {quantity}
@@ -1415,6 +1457,24 @@ export function MenuSection({}: MenuSectionProps) {
                   ))}
                 </div>
 
+                {/* Live Seated Dine-In Status */}
+                {dineInInfo && (
+                  <div className="bg-emerald-dark/30 border border-gold-brand/40 rounded-xl p-3 flex items-start gap-2.5 text-left animate-fade-in">
+                    <span className="text-sm">📍</span>
+                    <div className="space-y-0.5">
+                      <p className="text-[9px] font-bold tracking-widest font-mono text-gold-light uppercase leading-none">
+                        Dine-In Seated Location
+                      </p>
+                      <p className="text-xs text-white font-serif font-bold">
+                        Table {dineInInfo.tableNumber} • {dineInInfo.hallNumber}
+                      </p>
+                      <p className="text-[9px] text-gray-300 leading-tight">
+                        Your table information is linked and will be automatically submitted with your order!
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Subtotal summary counts */}
                 <div className="bg-emerald-mid p-4 rounded-xl border border-emerald-light/30 space-y-2 font-sans">
                   <div className="flex justify-between text-xs text-gray-200">
@@ -1424,7 +1484,7 @@ export function MenuSection({}: MenuSectionProps) {
                     </span>
                   </div>
                   <div className="flex justify-between text-sm font-medium border-t border-emerald-brand pt-2">
-                    <span className="text-gray-100">Catering Estimate:</span>
+                    <span className="text-gray-100">{dineInInfo ? "Table Order Total:" : "Catering Estimate:"}</span>
                     <span className="font-mono text-gold-brand text-base font-bold">
                       ₹{cartTotal}
                     </span>
@@ -1438,12 +1498,15 @@ export function MenuSection({}: MenuSectionProps) {
                     className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5c] text-white transition duration-300 py-3.5 rounded-xl font-bold text-xs select-none cursor-pointer uppercase tracking-wider shadow-md shadow-green-600/10"
                   >
                     <Share2 className="w-4 h-4 shrink-0" />
-                    <span>Send Platter to WhatsApp</span>
+                    <span>{dineInInfo ? "Confirm & Send Order to Table" : "Send Platter to WhatsApp"}</span>
                   </button>
                 </div>
                 
                 <p className="text-[9.5px] text-gray-300 text-center leading-relaxed font-mono">
-                  Share this custom platter combination instantly with our kitchen to confirm details, spice preferences, or customize your dining table!
+                  {dineInInfo 
+                    ? `Confirm your table order instantly with our kitchen on WhatsApp directly from Table ${dineInInfo.tableNumber} in ${dineInInfo.hallNumber}!`
+                    : "Share this custom platter combination instantly with our kitchen to confirm details, spice preferences, or customize your dining table!"
+                  }
                 </p>
               </div>
             )}
