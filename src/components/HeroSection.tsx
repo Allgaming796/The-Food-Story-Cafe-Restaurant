@@ -139,7 +139,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
               <div className="z-10 space-y-4">
                 <div className="h-0.5 bg-gold-brand/50 w-24" />
                 <h3 className="font-serif text-2xl sm:text-3xl text-white italic leading-snug">
-                  "The finest chapter of hand-stretched recipe craft or custom wedding catering in UP."
+                  "The finest chapter of hand-stretched recipe craft or custom family catering in UP."
                 </h3>
                 <p className="text-xs text-gold-light font-mono tracking-wider uppercase font-semibold">
                   — Patron Chronicle, Shahjahanpur

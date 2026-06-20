@@ -14,7 +14,7 @@ const FAQ_DATA: FAQItem[] = [
     id: "f1",
     category: "banquet",
     question: "What is the capacity of the banquet halls, and how far in advance should we book?",
-    answer: "We have three air-conditioned banquet halls with a combined capacity of up to 300 guests (around 100 to 150 guests per hall). For weekend parties or wedding dates, we suggest booking your date at least 2 to 3 months early so you do not miss out."
+    answer: "We have three air-conditioned banquet halls with a combined capacity of up to 300 guests (around 100 to 150 guests per hall). For weekend parties or event dates, we suggest booking your date at least 2 to 3 months early so you do not miss out."
   },
   {
     id: "f2",
