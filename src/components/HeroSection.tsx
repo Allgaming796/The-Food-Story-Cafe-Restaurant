@@ -49,7 +49,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-white/80 text-base sm:text-lg max-w-xl font-light leading-relaxed font-sans"
           >
-            Three clean halls. 150+ comfortable seats. A simple, delicious vegetarian restaurant built for family meals, happy celebrations, and fresh vegetarian dishes cooked with love.
+            Three spacious, well-maintained halls and 150+ comfortable seats. A simple and delicious vegetarian restaurant perfect for family meals, birthday parties, anniversaries, business meetings, small gatherings, celebrations, kitty parties, and special occasions. Enjoy fresh vegetarian dishes cooked with love in a comfortable and welcoming atmosphere.
           </motion.p>
 
           {/* Quick Features list */}
@@ -153,7 +153,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
                 </div>
                 <div className="flex-grow min-w-0">
                   <p className="text-xs font-bold text-white truncate">Special Occasion Decors</p>
-                  <p className="text-[10px] text-gray-300 truncate">Book "Grand Memoir" Banquet Hall</p>
+                  <p className="text-[10px] text-gray-300 truncate">Book "Ivory" Banquet Hall</p>
                 </div>
                 <button 
                   onClick={() => onNavigate("banquet")} 

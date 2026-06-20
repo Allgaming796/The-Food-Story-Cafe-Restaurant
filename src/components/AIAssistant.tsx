@@ -20,7 +20,7 @@ export function AIAssistant({ initialPrompt, onClearPrompt }: AIAssistantProps) 
       role: "assistant",
       content: `Namaste 🙏 I am your **AI Culinary Curator & Event Coordinator** for The Food Story. 
       
-Whether you seek culinary recommendations from our Shahjahanpur menu, wish to plan a comprehensive catering timeline for **The Grand Memoir Banquet Hall**, or crave a behind-the-scenes narration of our heritage cooking processes — I am here to tell your food story.
+Whether you seek culinary recommendations from our Shahjahanpur menu, wish to plan a comprehensive catering timeline for **Ivory Banquet Hall**, or crave a behind-the-scenes narration of our heritage cooking processes — I am here to tell your food story.
       
 Try selecting one of the custom helper questions below, or tell me about your party or craving!`,
     },

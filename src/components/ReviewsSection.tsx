@@ -8,7 +8,7 @@ const INITIAL_REVIEWS: Review[] = [
     id: "r1",
     userName: "Aakash Verma",
     rating: 5,
-    comment: "The Grand Memoir Banquet Hall hosted our family Roka ceremony flawlessly! We picked the Royal Gold theme with Saffron velvet drapes. The slow-cooked Dal Makhani Claypot and warm Brownies left everyone amazed. Sincere thanks to the catering stewards!",
+    comment: "Ivory Banquet Hall hosted our family Roka ceremony flawlessly! We picked the Royal Gold theme with Saffron velvet drapes. The slow-cooked Dal Makhani Claypot and warm Brownies left everyone amazed. Sincere thanks to the catering stewards!",
     date: "June 08, 2026",
     tag: "Banquet Ceremony",
     likes: 42,

@@ -170,9 +170,9 @@ export function DineInStatus() {
                   className="w-full bg-ivory-brand text-charcoal-dark border border-ivory-dark focus:ring-emerald-brand focus:border-emerald-brand rounded-xl px-4 py-2 text-xs focus:ring-1 focus:outline-none transition"
                 >
                   <option value="" disabled>-- Select Hall --</option>
-                  <option value="Hall 1">Banquet Hall 1 (The Grand Memoir)</option>
-                  <option value="Hall 2">Banquet Hall 2 (The Royal Canopy)</option>
-                  <option value="Hall 3">Banquet Hall 3 (The Celestial Lounge)</option>
+                  <option value="Hall 1">Ivory Hall</option>
+                  <option value="Hall 2">Sapphire Hall</option>
+                  <option value="Hall 3">Dining Hall</option>
                   <option value="Main Dining Room">Main Dining Room</option>
                 </select>
               </div>

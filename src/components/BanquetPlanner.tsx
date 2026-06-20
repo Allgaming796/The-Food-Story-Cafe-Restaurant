@@ -190,7 +190,7 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
         <div className="text-center space-y-3 max-w-2xl mx-auto">
           <div className="flex justify-center items-center gap-1.5 text-gold-brand text-xs font-semibold tracking-widest uppercase font-mono">
             <PartyPopper className="w-4 h-4 text-gold-brand animate-bounce shrink-0" />
-            <span>The Grand Memoir Hall</span>
+            <span>Ivory Hall</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-emerald-brand font-bold">
             Interactive Banquet Celebration Planner

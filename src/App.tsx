@@ -194,7 +194,7 @@ export default function App() {
                 }`}
               >
                 <CalendarDays className="w-4 h-4" />
-                <span>The Grand Memoir Hall</span>
+                <span>Ivory Hall</span>
                 {activeTab === "banquet" && (
                   <motion.div
                     layoutId="activeTabUnderline"
@@ -372,7 +372,7 @@ export default function App() {
 
         {/* copyright and credit rail */}
         <div className="bg-emerald-mid/50 py-6 border-t border-emerald-mid/30 text-center text-[10px] text-gray-500 font-mono flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-4">
-          <p>© 2026 The Food Story Café & Grand Memoir Banquet. All Rights Reserved.</p>
+          <p>© 2026 The Food Story Café & Ivory Banquet. All Rights Reserved.</p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <Heart className="w-3 h-3 text-indigo-500 fill-indigo-500" />
