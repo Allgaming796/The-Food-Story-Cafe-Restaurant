@@ -823,10 +823,10 @@ export function MenuSection({}: MenuSectionProps) {
   const dessertsCount = RAW_MENU.filter((it) => it.category === "desserts").length;
   const totalCount = RAW_MENU.length;
 
-  const CULINARY_CHAPTERS = [
+  const CULINARY_SECTIONS = [
     {
       id: "all" as const,
-      chapterNum: "📜",
+      sectionNum: "📜",
       title: "The Anthology",
       subtitle: "All Masterpieces",
       description: "Our complete heritage anthology containing all breakfast plates, sizzling starters, imperial mains, cooling elixirs & desserts.",
@@ -839,7 +839,7 @@ export function MenuSection({}: MenuSectionProps) {
     },
     {
       id: "appetizers" as const,
-      chapterNum: "Chapter I",
+      sectionNum: "Section I",
       title: "Awadhi Starters",
       subtitle: "Tandoori Skewers",
       description: "Fireside tandoori cottage cheese (Paneer Tikka), stuffed dry-fruit potatoes, and hand-rolled vegetable seekh kebabs.",
@@ -852,7 +852,7 @@ export function MenuSection({}: MenuSectionProps) {
     },
     {
       id: "mains" as const,
-      chapterNum: "Chapter II",
+      sectionNum: "Section II",
       title: "Imperial Mains",
       subtitle: "Gravies & Naans",
       description: "Creamy black Dal Makhani, velvety Shahi Paneer, and artisan tandoor-baked garlic naan bread coated with pure farm ghee.",
@@ -865,7 +865,7 @@ export function MenuSection({}: MenuSectionProps) {
     },
     {
       id: "drinks" as const,
-      chapterNum: "Chapter III",
+      sectionNum: "Section III",
       title: "Saffron Shakes",
       subtitle: "Cooling Elixirs",
       description: "Saffron milkshakes, cardamom-kissed lassis, and ice-chilled mint coolers to soothe the senses and digest spices.",
@@ -878,7 +878,7 @@ export function MenuSection({}: MenuSectionProps) {
     },
     {
       id: "desserts" as const,
-      chapterNum: "Chapter IV",
+      sectionNum: "Section IV",
       title: "Divine Desserts",
       subtitle: "Mouth Watering Sweets",
       description: "Ghee-roasted yellow lentil halwa, cardamom syrup gulab jamun, and delicate cottage-cheese sweet cakes.",
@@ -906,7 +906,7 @@ export function MenuSection({}: MenuSectionProps) {
             <span className="text-sm">Pure Vegetarian Masterpieces</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-gold-brand font-bold relative z-10">
-            Chapters of Our Culinary Story
+            Our Culinary Masterpieces
           </h2>
           <p className="text-gray-200 text-sm sm:text-base font-light font-sans leading-relaxed max-w-2xl mx-auto relative z-10">
             Every creation is hand-rolled and infused with freshly dry-roasted local Lucknowi spices. Explore our premium selection or assemble a custom dining platter below.
@@ -1031,30 +1031,30 @@ export function MenuSection({}: MenuSectionProps) {
           </div>
         </div>
 
-        {/* DYNAMIC NOVEL BOOKSHELF CATEGORIES */}
+        {/* DYNAMIC CATEGORY BLOCKS */}
         <div className="space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-ivory-dark pb-3">
             <div className="space-y-1 text-left">
               <span className="text-xs font-bold uppercase tracking-widest font-mono text-emerald-brand bg-white border border-ivory-dark px-2.5 py-1 rounded-md">
-                Interactive Bookshelf
+                Menu Sections
               </span>
               <h3 className="font-serif text-xl font-bold text-emerald-brand">
-                Choose a Chapter to Begin Browsing
+                Choose a Category to Begin Browsing
               </h3>
             </div>
             <span className="text-xs font-mono text-charcoal-mid self-start sm:self-center bg-white px-3 py-1 rounded-full border border-ivory-dark/65">
-              📚 Tap a category cover to unlock items
+              🍽️ Tap a category card to filter items
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-            {CULINARY_CHAPTERS.map((chap) => {
-              const isSelected = selectedCategory === chap.id;
+            {CULINARY_SECTIONS.map((sec) => {
+              const isSelected = selectedCategory === sec.id;
               return (
                 <button
-                  key={chap.id}
-                  onClick={() => setSelectedCategory(chap.id)}
-                  className={`text-left rounded-2xl p-5 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[300px] h-full ${chap.bgColor} ${chap.borderColor} hover:-translate-y-1.5 hover:shadow-md focus:outline-none ${
+                  key={sec.id}
+                  onClick={() => setSelectedCategory(sec.id)}
+                  className={`text-left rounded-2xl p-5 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[300px] h-full ${sec.bgColor} ${sec.borderColor} hover:-translate-y-1.5 hover:shadow-md focus:outline-none ${
                     isSelected
                       ? "ring-3 ring-gold-brand border-gold-brand shadow-lg scale-[1.01] -translate-y-1"
                       : "opacity-95 hover:opacity-100"
@@ -1071,23 +1071,23 @@ export function MenuSection({}: MenuSectionProps) {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-gold-brand/20 text-[#A27B2C] border border-gold-brand/15">
-                        {chap.chapterNum}
+                        {sec.sectionNum}
                       </span>
                       <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded-full border ${isSelected ? "bg-emerald-brand text-gold-brand border-gold-brand/30" : "bg-white text-charcoal-dark border-ivory-dark"}`}>
-                        {chap.count} dishes
+                        {sec.count} dishes
                       </span>
                     </div>
 
-                    <h4 className={`font-serif text-lg font-bold leading-tight ${chap.accentTextColor}`}>
-                      {chap.title}
+                    <h4 className={`font-serif text-lg font-bold leading-tight ${sec.accentTextColor}`}>
+                      {sec.title}
                     </h4>
                     
                     <span className="block text-[10px] uppercase tracking-wide font-mono font-bold text-charcoal-mid leading-relaxed select-none">
-                      {chap.subtitle}
+                      {sec.subtitle}
                     </span>
 
                     <p className="text-charcoal-dark text-xs font-light leading-relaxed line-clamp-4 font-sans">
-                      {chap.description}
+                      {sec.description}
                     </p>
                   </div>
 
@@ -1095,15 +1095,15 @@ export function MenuSection({}: MenuSectionProps) {
                   <div className="space-y-2 mt-4 pt-3 border-t border-dashed border-charcoal-mid/10 w-full">
                     <div className="flex gap-1.5 text-[10px] text-charcoal-mid/95 bg-white/70 rounded-lg p-2 border border-ivory-dark select-none">
                       <span className="text-xs shrink-0 text-gold-brand">💡</span>
-                      <span className="font-sans leading-tight italic line-clamp-2">{chap.chefNote}</span>
+                      <span className="font-sans leading-tight italic line-clamp-2">{sec.chefNote}</span>
                     </div>
 
                     <div className="w-full flex items-center justify-between pt-1">
                       <span className="text-[10px] font-bold tracking-widest font-mono uppercase bg-white px-2 py-0.5 rounded border border-ivory-dark/65">
-                        {chap.badge}
+                        {sec.badge}
                       </span>
                       <span className={`text-[10px] font-bold font-mono tracking-wider ${isSelected ? 'text-gold-brand underline decoration-gold-brand decoration-2' : 'text-charcoal-mid'}`}>
-                        {isSelected ? "📖 OPENED" : "🔑 BROWSE"}
+                        {isSelected ? "🍽️ SELECTED" : "👁️ VIEW"}
                       </span>
                     </div>
                   </div>
