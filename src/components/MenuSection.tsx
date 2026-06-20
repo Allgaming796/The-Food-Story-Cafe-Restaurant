@@ -671,7 +671,7 @@ export const RAW_MENU: MenuItem[] = [
     description: "Spongy cardamom deep-fried cheese balls steeped inside rosewater clarified sugar syrup.",
     price: 50,
     category: "desserts",
-    tags: ["Royal Desserts", "Classic Sweets"],
+    tags: ["Mouth Watering Desserts", "Classic Sweets"],
     spiciness: 0,
   },
   {
@@ -680,7 +680,7 @@ export const RAW_MENU: MenuItem[] = [
     description: "Creamy squeezed cheese disc cakes soaked inside highly reduced cardamom saffron dairy milk bath.",
     price: 60,
     category: "desserts",
-    tags: ["Royal Desserts", "Indian Heritage"],
+    tags: ["Mouth Watering Desserts", "Indian Heritage"],
     spiciness: 0,
   },
   {
@@ -689,7 +689,7 @@ export const RAW_MENU: MenuItem[] = [
     description: "Rich dessert paste crafted from skinless yellow lentils, heavy milk sweets, roasted cashew-nuts, and warm pure ghee.",
     price: 80,
     category: "desserts",
-    tags: ["Royal Desserts", "Warm Indian Halwa"],
+    tags: ["Mouth Watering Desserts", "Warm Indian Halwa"],
     spiciness: 0,
   },
   {
@@ -817,16 +817,20 @@ export function MenuSection({}: MenuSectionProps) {
     <section className="py-16 bg-ivory-brand px-4 sm:px-6 lg:px-8 border-b border-ivory-dark font-sans">
       <div className="max-w-7xl mx-auto space-y-10">
         
-        {/* Section Header */}
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <div className="flex justify-center items-center gap-1.5 text-gold-brand text-xs font-semibold tracking-widest uppercase font-mono">
+        {/* Section Header with rich colored background */}
+        <div className="text-center space-y-3 max-w-3xl mx-auto bg-emerald-brand text-slate-white border border-gold-brand/45 rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+          {/* Subtle background spice design flourish */}
+          <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-gold-brand/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -right-10 -top-10 w-40 h-40 bg-terra-brand/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="flex justify-center items-center gap-1.5 text-gold-brand text-xs font-semibold tracking-widest uppercase font-mono relative z-10">
             <Sparkles className="w-4 h-4 text-gold-brand animate-pulse shrink-0" />
-            <span>Pure Vegetarian Masterpieces</span>
+            <span className="text-sm">Pure Vegetarian Masterpieces</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl text-emerald-brand font-bold">
+          <h2 className="font-serif text-3xl sm:text-4xl text-gold-brand font-bold relative z-10">
             Chapters of Our Culinary Story
           </h2>
-          <p className="text-charcoal-mid text-sm sm:text-base font-light font-sans leading-relaxed">
+          <p className="text-gray-200 text-sm sm:text-base font-light font-sans leading-relaxed max-w-2xl mx-auto relative z-10">
             Every creation is hand-rolled and infused with freshly dry-roasted local Lucknowi spices. Explore our premium selection or assemble a custom dining platter below.
           </p>
         </div>
@@ -932,7 +936,7 @@ export function MenuSection({}: MenuSectionProps) {
                       : "bg-ivory-brand hover:bg-ivory-dark text-emerald-brand"
                   }`}
                 >
-                  Lactose-Free Friendly
+                  Less Additives
                 </button>
                 <button
                   onClick={() => setCravingDiet("dessert")}
@@ -942,7 +946,7 @@ export function MenuSection({}: MenuSectionProps) {
                       : "bg-ivory-brand hover:bg-ivory-dark text-emerald-brand"
                   }`}
                 >
-                  Royal Desserts & Shakes
+                  Mouth Watering Desserts & Shakes
                 </button>
               </div>
             </div>
