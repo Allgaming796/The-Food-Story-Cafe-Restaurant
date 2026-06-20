@@ -75,13 +75,13 @@ export function FAQSection() {
         <div className="text-center space-y-3">
           <div className="flex justify-center items-center gap-1.5 text-gold-brand text-xs font-semibold tracking-widest uppercase font-mono">
             <HelpCircle className="w-4 h-4 text-gold-brand animate-pulse shrink-0" />
-            <span>Curator Clarified</span>
+            <span>Help Guide</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-emerald-brand font-bold">
-            Frequently Whispered Questions
+            Frequently Asked Questions
           </h2>
           <p className="text-charcoal-mid text-sm sm:text-base font-light">
-            Everything you need to orchestrate a seamless dine-in platter, allergen specification adjustment, or a grand soirée banquet calendar booking.
+            Find quick answers about restaurant bookings, food options, space capacities, and event timings.
           </p>
         </div>
 

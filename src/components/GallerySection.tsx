@@ -11,37 +11,37 @@ interface GalleryCard {
 
 const GALLERY_ITEMS: GalleryCard[] = [
   {
-    title: "Chapter I: Dawn Awakened (Signature Breakfast)",
+    title: "Signature Breakfast Favorites",
     category: "culinary",
     description: "Start your morning with golden Poori Aloo (₹150), slow-crisped Aloo-Gobhi-Paneer Parathas (₹80-₹100), standard local Chhole Bhature (₹150) or comforting Pav Bhaji.",
     emoji: "🥞"
   },
   {
-    title: "Chapter II: Clay Oven Royalty (Tandoor & Kebab)",
+    title: "Clay Oven Starters (Tandoor & Kebab)",
     category: "culinary",
     description: "Enjoy our majestic Tandoori Platter (₹549) loaded with spiced Paneer Tikka (₹325), Veg Seekh Kabab (₹299), Mushroom Tikka, and coal-roasted pineapples.",
     emoji: "🔥"
   },
   {
-    title: "Chapter III: Sourdough Alchemy (Stonefired Pizzas)",
+    title: "Stonefired Delicious Pizzas",
     category: "culinary",
     description: "Hand-pushed double-fermented sourdoughs starting at ₹129. Try our loaded signature TFS Special Pizza (₹279), Farm House (₹249), or Achari Paneer specialty.",
     emoji: "🍕"
   },
   {
-    title: "Chapter IV: Wok & Steam Delights (East Asian & Short Eats)",
+    title: "Momos, East Asian & Short Eats",
     category: "culinary",
     description: "Savor our iconic Kurkure, Afghani & Baked Momos (₹149-₹249), wok-tossed Chilli Paneer Dry (₹319), Honey Chilli Lotus Stem (₹269), or rich Rose Pasta (₹309).",
     emoji: "🥟"
   },
   {
-    title: "Chapter V: Royal Heritage Gravies (North Indian Mains)",
+    title: "North Indian Main Course Curries",
     category: "culinary",
     description: "Meticulously simmered Dal Makhani Handi (₹275), spiced Paneer Butter Masala (₹369), Paneer Lababdar (₹369), and our legendary rich Cheese Tomato Butter (₹369).",
     emoji: "🍲"
   },
   {
-    title: "Chapter VI: Sweet Nectars & Waffles (Elixirs & Desserts)",
+    title: "Sweet Desserts, Waffles & Shakes",
     category: "culinary",
     description: "Conclude with fresh Blueberry or Nutella Waffles (₹149/179), Ferrero Rocher & Banoffee shakes (₹220/120), and cold artisan Cactus or Spicy Mango Mojitos.",
     emoji: "🍹"

@@ -178,7 +178,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
             <p className="text-[11px] text-gray-300 font-mono tracking-wider uppercase">Seated Guests</p>
           </div>
           <div className="space-y-1 border-l border-emerald-mid">
-            <p className="font-serif text-3xl sm:text-4xl font-bold text-gold-brand">2</p>
+            <p className="font-serif text-3xl sm:text-4xl font-bold text-gold-brand">3</p>
             <p className="text-[11px] text-gray-300 font-mono tracking-wider uppercase">Banquet Halls</p>
           </div>
           <div className="space-y-1 border-l border-emerald-mid">

@@ -234,7 +234,7 @@ export const RAW_MENU: MenuItem[] = [
     description: "Creamy garden-picked baby spinach folded with sweet corn kernels inside grilled multigrain slices.",
     price: 170,
     category: "appetizers",
-    tags: ["Breakfast", "Healthy Accord"],
+    tags: ["Breakfast", "Healthy Choice"],
     spiciness: 0,
   },
   {
@@ -308,7 +308,7 @@ export const RAW_MENU: MenuItem[] = [
     description: "Steamed momos dipped in a velvety marinade of thick dairy cream, white pepper, and light cashew dust.",
     price: 219,
     category: "appetizers",
-    tags: ["Momos Series", "Mild Accord"],
+    tags: ["Momos Series", "Mild & Creamy"],
     spiciness: 1,
   },
   {
@@ -467,7 +467,7 @@ export const RAW_MENU: MenuItem[] = [
     description: "Fried potato and cottage cheese dumplings presenting hidden dried fruit cavities, floated in silky white gravy.",
     price: 299,
     category: "mains",
-    tags: ["North Indian Mains", "Sweet-Mild Accord"],
+    tags: ["North Indian Mains", "Sweet & Mild"],
     spiciness: 1,
   },
   {
@@ -840,10 +840,10 @@ export function MenuSection({}: MenuSectionProps) {
             <div className="space-y-1">
               <h3 className="font-serif text-lg font-semibold text-emerald-brand flex items-center gap-1.5">
                 <Sparkle className="w-4 h-4 text-gold-brand fill-gold-brand shrink-0" />
-                <span>Match My Craving Recommendation Engine</span>
+                <span>Simple Taste & Ingredient Filter</span>
               </h3>
               <p className="text-xs text-charcoal-mid">
-                Select sensory variables to instantly filter chef specials suited to your current craving.
+                Select your preferences to quickly filter matching dishes.
               </p>
             </div>
             {hasActiveCravingFilters && (
@@ -851,16 +851,16 @@ export function MenuSection({}: MenuSectionProps) {
                 onClick={resetCravingFilters}
                 className="text-xs text-[#C85C3A] hover:underline font-mono uppercase font-bold shrink-0 self-start sm:self-center"
               >
-                Reset sensory filter ×
+                Reset filters ×
               </button>
             )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Spice tolerance sensory buttons */}
+            {/* Spice tolerance buttons */}
             <div className="space-y-2">
               <span className="text-[11px] uppercase font-bold tracking-wider font-mono text-charcoal-mid">
-                Desired Spice Intensity
+                Spice Level
               </span>
               <div className="flex flex-wrap gap-2">
                 <button
@@ -882,7 +882,7 @@ export function MenuSection({}: MenuSectionProps) {
                   }`}
                 >
                   <Flame className="w-3.5 h-3.5 text-gold-brand shrink-0" />
-                  <span>Mild Accord</span>
+                  <span>Mild Spice / Less Spicy</span>
                 </button>
                 <button
                   onClick={() => setCravingSpice("fiery")}
@@ -893,15 +893,15 @@ export function MenuSection({}: MenuSectionProps) {
                   }`}
                 >
                   <Flame className="w-3.5 h-3.5 text-[#C85C3A] fill-[#C85C3A] shrink-0" />
-                  <span>Fiery Lucknowi Spice</span>
+                  <span>Spicy / Hot Dishes</span>
                 </button>
               </div>
             </div>
 
-            {/* Culinary preference variables */}
+            {/* Culinary preferences */}
             <div className="space-y-2">
               <span className="text-[11px] uppercase font-bold tracking-wider font-mono text-charcoal-mid">
-                Dietary & Flavor Focus
+                Dietary & Taste Preferences
               </span>
               <div className="flex flex-wrap gap-2">
                 <button
@@ -986,7 +986,7 @@ export function MenuSection({}: MenuSectionProps) {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-brand animate-pulse" />
             <p className="text-xs text-charcoal-mid font-medium font-sans">
-              Showing <span className="font-bold text-emerald-brand">{filteredItems.length}</span> signature delicacies from the royal kitchen
+              Showing <span className="font-bold text-emerald-brand">{filteredItems.length}</span> delicious dishes from our menu
             </p>
           </div>
           <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/65 rounded-xl p-1 shrink-0">
@@ -1134,12 +1134,12 @@ export function MenuSection({}: MenuSectionProps) {
               {filteredItems.length === 0 && (
                 <div className="col-span-full py-12 text-center text-charcoal-mid space-y-2 bg-white rounded-2xl border border-ivory-dark">
                   <HeartCrack className="w-8 h-8 mx-auto text-[#C85C3A]/60" />
-                  <p className="text-sm font-light">No delicacies match your selected cravings or categories.</p>
+                  <p className="text-sm font-light">No items match your selected filters or categories.</p>
                   <button
                     onClick={resetCravingFilters}
                     className="text-xs text-gold-brand font-bold uppercase tracking-wider font-mono hover:underline"
                   >
-                    Clear sensory filters
+                    Clear filters
                   </button>
                 </div>
               )}

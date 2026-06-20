@@ -7,12 +7,12 @@ import { RAW_MENU } from "./MenuSection";
 
 const CUSTOM_CATEGORIES = [
   { id: "breakfast", label: "🥐 Breakfast & Short Eats", prefixes: ["bf", "se"] },
-  { id: "tandoor", label: "🔥 Claytop Starters", prefixes: ["app"] },
-  { id: "pizza", label: "🍕 Sourdough Pizzas", prefixes: ["pz"] },
-  { id: "gravies", label: "🍲 Shahi Gravies & Mains", prefixes: ["mn"] },
+  { id: "tandoor", label: "🔥 Oven Hot Starters", prefixes: ["app"] },
+  { id: "pizza", label: "🍕 Handcrafted Pizzas", prefixes: ["pz"] },
+  { id: "gravies", label: "🍲 Main Course Curries", prefixes: ["mn"] },
   { id: "breads", label: "🥖 Breads & Sides", prefixes: ["sd"] },
   { id: "drinks", label: "🍹 Shakes & Mocktails", prefixes: ["dr"] },
-  { id: "sweets", label: "🍰 Waffles & Desserts", prefixes: ["ds"] },
+  { id: "sweets", label: "🍰 Desserts & Waffles", prefixes: ["ds"] },
 ];
 
 const DECOR_THEMES: BanquetTheme[] = [

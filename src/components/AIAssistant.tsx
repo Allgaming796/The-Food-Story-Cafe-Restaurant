@@ -18,9 +18,9 @@ export function AIAssistant({ initialPrompt, onClearPrompt }: AIAssistantProps) 
   const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([
     {
       role: "assistant",
-      content: `Namaste 🙏 I am your **AI Culinary Curator & Event Coordinator** for The Food Story. 
+      content: `Namaste 🙏 I am your **AI Food Planner & Event Assistant** for The Food Story. 
       
-Whether you seek culinary recommendations from our Shahjahanpur menu, wish to plan a comprehensive catering timeline for **Ivory Banquet Hall**, or crave a behind-the-scenes narration of our heritage cooking processes — I am here to tell your food story.
+Whether you want delicious food recommendations from our Shahjahanpur menu, wish to plan a food timetable for **Ivory Banquet Hall**, or want to know about our traditional cooking processes — I am here to help you.
       
 Try selecting one of the custom helper questions below, or tell me about your party or craving!`,
     },
@@ -160,13 +160,13 @@ Try selecting one of the custom helper questions below, or tell me about your pa
         <div className="text-center space-y-3">
           <div className="flex justify-center items-center gap-1.5 text-gold-brand text-xs sm:text-sm font-semibold tracking-widest uppercase font-mono">
             <Sparkles className="w-4 h-4 animate-pulse text-gold-brand shrink-0" />
-            <span>AI Event Curator & Culinary Advisor</span>
+            <span>AI Food Planner & Event Assistant</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-emerald-brand font-bold">
-            Consult the AI Curator
+            Ask the AI Assistant
           </h2>
           <p className="text-charcoal-mid text-xs sm:text-sm font-light max-w-lg mx-auto leading-relaxed">
-            Powered by Gemini, our customized advisor constructs party food lists, schedules day of timetables, and details wood-fired slow cooking methods.
+            Powered by Gemini, our customized helper plans party food menus, schedules event steps, and explains our simple cooking methods.
           </p>
         </div>
 
@@ -178,10 +178,10 @@ Try selecting one of the custom helper questions below, or tell me about your pa
             <div className="flex items-center gap-2.5">
               <Bot className="w-5 h-5 text-gold-brand shrink-0" />
               <div className="text-left">
-                <p className="text-sm font-bold text-white leading-none font-sans">Curator Advisory AI</p>
+                <p className="text-sm font-bold text-white leading-none font-sans">AI Food & Event Assistant</p>
                 <div className="flex items-center gap-1.5 mt-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-[10px] text-gray-200 font-mono leading-none">Catering & Master Chef Intelligence Stable</span>
+                  <span className="text-[10px] text-gray-200 font-mono leading-none">Catering & Event Planning Support</span>
                 </div>
               </div>
             </div>
