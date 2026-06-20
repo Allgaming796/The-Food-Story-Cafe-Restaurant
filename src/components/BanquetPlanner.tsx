@@ -78,7 +78,7 @@ const CATERING_PACKAGES: CateringPackage[] = [
     pricePerPlate: 999,
     description: "The ideal catering blend featuring our artisanal pizzas, woodfired starters, signature mocktails, and rich slow oven dishes.",
     includes: ["3 Starters (Paneer Tikka & Lotus stem)", "2 Main Course Curries", "Dal Handi simmered", "Pizza Slices on-demand", "2 Desserts (Shahi Tukda + Sizzling Brownie)"],
-    features: ["Dedicated Stewards", "Gourmet plating", "Clay-pot live tandoori showcase"],
+    features: ["Dedicated Stewards", "Gourmet plating", "Live tandoori counter showcase"],
   },
   {
     id: "pkg-platinum",

@@ -28,7 +28,6 @@ import { MenuSection } from "./components/MenuSection";
 import { TableBooking } from "./components/TableBooking";
 import { BanquetPlanner } from "./components/BanquetPlanner";
 import { ReviewsSection } from "./components/ReviewsSection";
-import { GallerySection } from "./components/GallerySection";
 import { FAQSection } from "./components/FAQSection";
 import { DineInStatus } from "./components/DineInStatus";
 
@@ -256,16 +255,6 @@ export default function App() {
               )}
             </motion.div>
           </AnimatePresence>
-        </motion.div>
-
-        {/* Ambient Beautiful Bento Photo Gallery */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-85px" }}
-          transition={{ duration: 0.75, ease: "easeOut" }}
-        >
-          <GallerySection />
         </motion.div>
       </main>
 

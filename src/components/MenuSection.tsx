@@ -325,7 +325,7 @@ export const RAW_MENU: MenuItem[] = [
   {
     id: "app1",
     name: "Tandoori Aloo",
-    description: "Scooped whole potatoes filled with raisins, spices, and cottage cheese, char-blistered in claypit ovens.",
+    description: "Scooped whole potatoes filled with raisins, spices, and cottage cheese, char-blistered to smoky perfection.",
     price: 225,
     category: "appetizers",
     tags: ["Tandoori Craft", "Smoky"],
@@ -428,7 +428,7 @@ export const RAW_MENU: MenuItem[] = [
   {
     id: "mn1",
     name: "Dal Makhani Handi",
-    description: "Organic black lentils slow-simmered over oakwood embers for 18 hours inside clay pots, whipped with hand-churned dairy butter.",
+    description: "Organic black lentils slow-simmered over oakwood embers for 18 hours inside traditional handis, whipped with hand-churned dairy butter.",
     price: 275,
     category: "mains",
     tags: ["North Indian Mains", "Slow Cooked"],
@@ -511,7 +511,7 @@ export const RAW_MENU: MenuItem[] = [
   {
     id: "sd2",
     name: "Garlic Naan",
-    description: "Fragrant clay-oven leavened yeast bread loaded with chopped sharp garlic, fresh cilantro, and ghee varnish.",
+    description: "Fragrant tandoor-baked leavened yeast bread loaded with chopped sharp garlic, fresh cilantro, and ghee varnish.",
     price: 75,
     category: "mains",
     tags: ["Breads", "Garlic Punch"],
@@ -709,6 +709,7 @@ export function MenuSection({}: MenuSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<"all" | "appetizers" | "mains" | "drinks" | "desserts">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [cart, setCart] = useState<{ [id: string]: number }>({});
+  const [itemSizes, setItemSizes] = useState<{ [id: string]: "small" | "large" }>({});
 
   // Match My Craving filter states
   const [cravingSpice, setCravingSpice] = useState<"any" | "mild" | "fiery">("any");
@@ -769,28 +770,31 @@ export function MenuSection({}: MenuSectionProps) {
     return filteredItems.slice(0, visibleLimit);
   }, [filteredItems, visibleLimit]);
 
-  const updateCartQuantity = (id: string, delta: number) => {
+  const updateCartQuantity = (id: string, size: "small" | "large", delta: number) => {
+    const cartKey = `${id}_${size}`;
     setCart((prev) => {
-      const current = prev[id] || 0;
+      const current = prev[cartKey] || 0;
       const next = current + delta;
       if (next <= 0) {
         const copy = { ...prev };
-        delete copy[id];
+        delete copy[cartKey];
         return copy;
       }
-      return { ...prev, [id]: next };
+      return { ...prev, [cartKey]: next };
     });
   };
 
   const cartList = useMemo(() => {
-    return Object.entries(cart).map(([id, qty]) => {
+    return Object.entries(cart).map(([key, qty]) => {
+      const [id, size] = key.split("_") as [string, "small" | "large"];
       const menuObj = RAW_MENU.find((it) => it.id === id)!;
-      return { item: menuObj, quantity: qty };
+      const price = size === "small" ? Math.round(menuObj.price * 0.65) : menuObj.price;
+      return { item: menuObj, size, price, quantity: qty, key };
     });
   }, [cart]);
 
   const cartTotal = useMemo(() => {
-    return cartList.reduce((acc, current) => acc + current.item.price * current.quantity, 0);
+    return cartList.reduce((acc, current) => acc + current.price * current.quantity, 0);
   }, [cartList]);
 
   const clearCart = () => setCart({});
@@ -799,7 +803,7 @@ export function MenuSection({}: MenuSectionProps) {
   const handleShareOnWhatsApp = () => {
     if (cartList.length === 0) return;
     const itemsText = cartList
-      .map((c) => `• *${c.quantity}* × ${c.item.name} (₹${c.item.price} each)`)
+      .map((c) => `• *${c.quantity}* × ${c.item.name} (${c.size === "small" ? "Small Portion" : "Large Portion"} - ₹${c.price} each)`)
       .join("\n");
     const textMsg = `Hello! I have created a custom events catering platter estimate at *The Food Story Café & Restaurant* on your portal:\n\n${itemsText}\n\n*Total Combined Estimated Budget:* ₹${cartTotal}\n\nCan you please check availability and pricing options for our upcoming celebration?`;
     const encryptedMsg = encodeURIComponent(textMsg);
@@ -812,6 +816,80 @@ export function MenuSection({}: MenuSectionProps) {
   };
 
   const hasActiveCravingFilters = cravingSpice !== "any" || cravingDiet !== "any";
+
+  const appetizersCount = RAW_MENU.filter((it) => it.category === "appetizers").length;
+  const mainsCount = RAW_MENU.filter((it) => it.category === "mains").length;
+  const drinksCount = RAW_MENU.filter((it) => it.category === "drinks").length;
+  const dessertsCount = RAW_MENU.filter((it) => it.category === "desserts").length;
+  const totalCount = RAW_MENU.length;
+
+  const CULINARY_CHAPTERS = [
+    {
+      id: "all" as const,
+      chapterNum: "📜",
+      title: "The Anthology",
+      subtitle: "All Masterpieces",
+      description: "Our complete heritage anthology containing all breakfast plates, sizzling starters, imperial mains, cooling elixirs & desserts.",
+      bgColor: "bg-white",
+      borderColor: "border-gold-brand/35",
+      accentTextColor: "text-emerald-brand",
+      badge: "Full Edition",
+      chefNote: "Recommended for first-time royal diners",
+      count: totalCount,
+    },
+    {
+      id: "appetizers" as const,
+      chapterNum: "Chapter I",
+      title: "Awadhi Starters",
+      subtitle: "Tandoori Skewers",
+      description: "Fireside tandoori cottage cheese (Paneer Tikka), stuffed dry-fruit potatoes, and hand-rolled vegetable seekh kebabs.",
+      bgColor: "bg-amber-50/25",
+      borderColor: "border-[#C85C3A]/25",
+      accentTextColor: "text-[#C85C3A]",
+      badge: "Kebab Craft",
+      chefNote: "Searing heat gives these a rich traditional finish",
+      count: appetizersCount,
+    },
+    {
+      id: "mains" as const,
+      chapterNum: "Chapter II",
+      title: "Imperial Mains",
+      subtitle: "Gravies & Naans",
+      description: "Creamy black Dal Makhani, velvety Shahi Paneer, and artisan tandoor-baked garlic naan bread coated with pure farm ghee.",
+      bgColor: "bg-emerald-50/15",
+      borderColor: "border-emerald-mid/25",
+      accentTextColor: "text-emerald-brand",
+      badge: "18-Hour Simmer",
+      chefNote: "Slow-cooked inside heavy vessels to release deep aromas",
+      count: mainsCount,
+    },
+    {
+      id: "drinks" as const,
+      chapterNum: "Chapter III",
+      title: "Saffron Shakes",
+      subtitle: "Cooling Elixirs",
+      description: "Saffron milkshakes, cardamom-kissed lassis, and ice-chilled mint coolers to soothe the senses and digest spices.",
+      bgColor: "bg-sky-50/20",
+      borderColor: "border-sky-300/25",
+      accentTextColor: "text-sky-700",
+      badge: "Golden Brews",
+      chefNote: "Excellent counterpart to hot Lucknowi spices",
+      count: drinksCount,
+    },
+    {
+      id: "desserts" as const,
+      chapterNum: "Chapter IV",
+      title: "Divine Desserts",
+      subtitle: "Mouth Watering Sweets",
+      description: "Ghee-roasted yellow lentil halwa, cardamom syrup gulab jamun, and delicate cottage-cheese sweet cakes.",
+      bgColor: "bg-pink-50/20",
+      borderColor: "border-pink-300/25",
+      accentTextColor: "text-pink-700",
+      badge: "Silver Leafed",
+      chefNote: "Adorned with pure hand-beaten premium silver foil",
+      count: dessertsCount,
+    },
+  ];
 
   return (
     <section className="py-16 bg-ivory-brand px-4 sm:px-6 lg:px-8 border-b border-ivory-dark font-sans">
@@ -953,36 +1031,98 @@ export function MenuSection({}: MenuSectionProps) {
           </div>
         </div>
 
-        {/* Dashboard Filter and Search Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-          {/* Categories Tab selector */}
-          <div className="md:col-span-8 flex flex-wrap gap-2 overflow-x-auto pb-2 md:pb-0 justify-start">
-            {(["all", "appetizers", "mains", "drinks", "desserts"] as const).map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-semibold font-mono tracking-wider uppercase transition cursor-pointer border transition-all ${
-                  selectedCategory === cat
-                    ? "bg-gold-brand text-emerald-brand border-gold-brand shadow-sm font-bold"
-                    : "bg-white hover:bg-ivory-dark text-charcoal-dark border-ivory-dark"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+        {/* DYNAMIC NOVEL BOOKSHELF CATEGORIES */}
+        <div className="space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-ivory-dark pb-3">
+            <div className="space-y-1 text-left">
+              <span className="text-xs font-bold uppercase tracking-widest font-mono text-emerald-brand bg-white border border-ivory-dark px-2.5 py-1 rounded-md">
+                Interactive Bookshelf
+              </span>
+              <h3 className="font-serif text-xl font-bold text-emerald-brand">
+                Choose a Chapter to Begin Browsing
+              </h3>
+            </div>
+            <span className="text-xs font-mono text-charcoal-mid self-start sm:self-center bg-white px-3 py-1 rounded-full border border-ivory-dark/65">
+              📚 Tap a category cover to unlock items
+            </span>
           </div>
 
-          {/* Real-time search field */}
-          <div className="md:col-span-4 relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-brand" />
-            <input
-              type="text"
-              placeholder="Search dishes or ingredients..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-ivory-dark focus:outline-none focus:ring-2 focus:ring-gold-brand text-sm bg-white text-charcoal-dark placeholder-charcoal-mid"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            {CULINARY_CHAPTERS.map((chap) => {
+              const isSelected = selectedCategory === chap.id;
+              return (
+                <button
+                  key={chap.id}
+                  onClick={() => setSelectedCategory(chap.id)}
+                  className={`text-left rounded-2xl p-5 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[300px] h-full ${chap.bgColor} ${chap.borderColor} hover:-translate-y-1.5 hover:shadow-md focus:outline-none ${
+                    isSelected
+                      ? "ring-3 ring-gold-brand border-gold-brand shadow-lg scale-[1.01] -translate-y-1"
+                      : "opacity-95 hover:opacity-100"
+                  }`}
+                >
+                  {/* Selected Bookmark Ribbon */}
+                  {isSelected && (
+                    <div className="absolute right-4 top-0 w-4 h-8 bg-gold-brand rounded-b-md shadow-xs flex items-center justify-center pointer-events-none">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-brand" />
+                    </div>
+                  )}
+
+                  {/* Body Info */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-gold-brand/20 text-[#A27B2C] border border-gold-brand/15">
+                        {chap.chapterNum}
+                      </span>
+                      <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded-full border ${isSelected ? "bg-emerald-brand text-gold-brand border-gold-brand/30" : "bg-white text-charcoal-dark border-ivory-dark"}`}>
+                        {chap.count} dishes
+                      </span>
+                    </div>
+
+                    <h4 className={`font-serif text-lg font-bold leading-tight ${chap.accentTextColor}`}>
+                      {chap.title}
+                    </h4>
+                    
+                    <span className="block text-[10px] uppercase tracking-wide font-mono font-bold text-charcoal-mid leading-relaxed select-none">
+                      {chap.subtitle}
+                    </span>
+
+                    <p className="text-charcoal-dark text-xs font-light leading-relaxed line-clamp-4 font-sans">
+                      {chap.description}
+                    </p>
+                  </div>
+
+                  {/* Chef tip & active highlight */}
+                  <div className="space-y-2 mt-4 pt-3 border-t border-dashed border-charcoal-mid/10 w-full">
+                    <div className="flex gap-1.5 text-[10px] text-charcoal-mid/95 bg-white/70 rounded-lg p-2 border border-ivory-dark select-none">
+                      <span className="text-xs shrink-0 text-gold-brand">💡</span>
+                      <span className="font-sans leading-tight italic line-clamp-2">{chap.chefNote}</span>
+                    </div>
+
+                    <div className="w-full flex items-center justify-between pt-1">
+                      <span className="text-[10px] font-bold tracking-widest font-mono uppercase bg-white px-2 py-0.5 rounded border border-ivory-dark/65">
+                        {chap.badge}
+                      </span>
+                      <span className={`text-[10px] font-bold font-mono tracking-wider ${isSelected ? 'text-gold-brand underline decoration-gold-brand decoration-2' : 'text-charcoal-mid'}`}>
+                        {isSelected ? "📖 OPENED" : "🔑 BROWSE"}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
+        </div>
+
+        {/* Dashboard Search Field below Chapters */}
+        <div className="max-w-md mx-auto relative pt-4">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-brand z-10" />
+          <input
+            type="text"
+            placeholder="Search within this page..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-ivory-dark focus:outline-none focus:ring-2 focus:ring-gold-brand text-sm bg-white text-charcoal-dark placeholder-charcoal-mid shadow-2xs"
+          />
         </div>
 
         {/* View Mode controls */}
@@ -1025,7 +1165,13 @@ export function MenuSection({}: MenuSectionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
               <AnimatePresence mode="popLayout">
                 {visibleItems.map((item) => {
-                  const quantityInPlatter = cart[item.id] || 0;
+                  const size = itemSizes[item.id] || "large";
+                  const smallPrice = Math.round(item.price * 0.65);
+                  const largePrice = item.price;
+                  const activePrice = size === "small" ? smallPrice : largePrice;
+                  const cartKey = `${item.id}_${size}`;
+                  const quantityInPlatter = cart[cartKey] || 0;
+
                   return (
                     <motion.div
                       layout
@@ -1091,20 +1237,53 @@ export function MenuSection({}: MenuSectionProps) {
                               </span>
                             ))}
                           </div>
+
+                          {/* Portion Size Selection buttons */}
+                          <div className="flex gap-2 pt-2 bg-ivory-brand/45 p-1 rounded-xl border border-ivory-dark/40 select-none">
+                            <button
+                              role="radio"
+                              aria-checked={size === "small"}
+                              onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "small" }))}
+                              className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
+                                size === "small"
+                                  ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
+                                  : "text-charcoal-mid hover:text-emerald-brand bg-white"
+                              }`}
+                            >
+                              Small (₹{smallPrice})
+                            </button>
+                            <button
+                              role="radio"
+                              aria-checked={size === "large"}
+                              onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "large" }))}
+                              className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
+                                size === "large"
+                                  ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
+                                  : "text-charcoal-mid hover:text-emerald-brand bg-white"
+                              }`}
+                            >
+                              Large (₹{largePrice})
+                            </button>
+                          </div>
                         </div>
 
                         {/* bottom pricing & interactivity */}
-                        <div className="flex items-center justify-between pt-4 mt-4 border-t border-ivory-dark/50">
-                          <span className="font-mono text-sm font-bold text-emerald-brand bg-emerald-brand/5 px-2 py-1 rounded-lg border border-emerald-brand/15">
-                            ₹{item.price}
-                          </span>
+                        <div className="flex items-center justify-between pt-3 mt-3 border-t border-ivory-dark/50">
+                          <div className="flex flex-col text-left">
+                            <span className="text-[9px] font-bold tracking-wider font-mono text-charcoal-mid uppercase leading-none mb-1">
+                              {size === "small" ? "Small Portion" : "Large Portion"}
+                            </span>
+                            <span className="font-mono text-xs sm:text-sm font-bold text-emerald-brand">
+                              ₹{activePrice}
+                            </span>
+                          </div>
 
                           {/* Add button with animation toggle states */}
-                          <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/80 rounded-lg p-0.5">
+                          <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/80 rounded-lg p-0.5 shadow-2xs">
                             {quantityInPlatter > 0 ? (
                               <>
                                 <button
-                                  onClick={() => updateCartQuantity(item.id, -1)}
+                                  onClick={() => updateCartQuantity(item.id, size, -1)}
                                   className="w-6 h-6 flex items-center justify-center rounded text-emerald-brand hover:bg-ivory-dark active:scale-90 transition cursor-pointer"
                                 >
                                   <Minus className="w-3 h-3" />
@@ -1113,7 +1292,7 @@ export function MenuSection({}: MenuSectionProps) {
                                   {quantityInPlatter}
                                 </span>
                                 <button
-                                  onClick={() => updateCartQuantity(item.id, 1)}
+                                  onClick={() => updateCartQuantity(item.id, size, 1)}
                                   className="w-6 h-6 flex items-center justify-center rounded bg-emerald-brand text-gold-brand hover:bg-emerald-mid active:scale-90 transition cursor-pointer"
                                 >
                                   <Plus className="w-3 h-3" />
@@ -1121,10 +1300,10 @@ export function MenuSection({}: MenuSectionProps) {
                               </>
                             ) : (
                               <button
-                                onClick={() => updateCartQuantity(item.id, 1)}
-                                className="flex items-center justify-center gap-1 px-3 py-1 text-[11px] font-bold text-emerald-brand hover:bg-emerald-brand hover:text-gold-brand rounded transition cursor-pointer font-sans"
+                                onClick={() => updateCartQuantity(item.id, size, 1)}
+                                className="flex items-center justify-center gap-1 px-2.5 py-1 text-[11px] font-bold text-emerald-brand hover:bg-emerald-brand hover:text-gold-brand rounded transition-colors duration-200 cursor-pointer font-sans"
                               >
-                                <Plus className="w-3.5 h-3.5 font-bold" />
+                                <Plus className="w-3.5 h-3.5 font-bold text-gold-brand" />
                                 <span>Add Platter</span>
                               </button>
                             )}
@@ -1208,30 +1387,32 @@ export function MenuSection({}: MenuSectionProps) {
               /* Loaded Cart List scrollbar */
               <div className="space-y-4">
                 <div className="max-h-[260px] overflow-y-auto space-y-3 pr-1.5 scrollbar-thin">
-                  {cartList.map(({ item, quantity }) => (
+                  {cartList.map(({ item, size, price, quantity, key }) => (
                     <motion.div
                       layout
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      key={item.id}
-                      className="flex items-center justify-between gap-3 text-sm bg-emerald-mid p-2.5 rounded-xl border border-emerald-light/30 text-white"
+                      key={key}
+                      className="flex items-center justify-between gap-3 text-sm bg-emerald-mid p-2.5 rounded-xl border border-emerald-light/30 text-white font-sans"
                     >
-                      <div className="flex-grow min-w-0 font-sans">
-                        <p className="font-bold text-white truncate text-xs">{item.name}</p>
+                      <div className="flex-grow min-w-0">
+                        <p className="font-bold text-white truncate text-xs">
+                          {item.name} <span className="text-[10.5px] text-gold-brand font-medium">({size === "small" ? "Small" : "Large"})</span>
+                        </p>
                         <p className="text-[10px] text-gold-light font-mono font-semibold">
-                          ₹{item.price} × {quantity}
+                          ₹{price} × {quantity}
                         </p>
                       </div>
                       <div className="flex items-center gap-1.5 bg-emerald-brand rounded-md border border-emerald-mid p-0.5 shrink-0">
                         <button
-                          onClick={() => updateCartQuantity(item.id, -1)}
+                          onClick={() => updateCartQuantity(item.id, size, -1)}
                           className="w-5 h-5 flex items-center justify-center text-gray-300 hover:text-white rounded transition cursor-pointer"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
                         <span className="font-mono text-xs font-bold text-white px-0.5">{quantity}</span>
                         <button
-                          onClick={() => updateCartQuantity(item.id, 1)}
+                          onClick={() => updateCartQuantity(item.id, size, 1)}
                           className="w-5 h-5 flex items-center justify-center text-gray-300 hover:text-white rounded transition cursor-pointer"
                         >
                           <Plus className="w-3 h-3" />
