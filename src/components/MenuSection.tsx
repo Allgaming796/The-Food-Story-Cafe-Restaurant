@@ -826,67 +826,67 @@ export function MenuSection({}: MenuSectionProps) {
   const CULINARY_SECTIONS = [
     {
       id: "all" as const,
-      sectionNum: "📜",
-      title: "The Anthology",
+      icon: "🍽️",
+      title: "Complete Menu",
       subtitle: "All Masterpieces",
-      description: "Our complete heritage anthology containing all breakfast plates, sizzling starters, imperial mains, cooling elixirs & desserts.",
+      description: "Our complete heritage selection containing all sizzling starters, imperial mains, cooling elixirs & sweet desserts.",
       bgColor: "bg-white",
       borderColor: "border-gold-brand/35",
       accentTextColor: "text-emerald-brand",
-      badge: "Full Edition",
-      chefNote: "Recommended for first-time royal diners",
+      badge: "Full Selection",
+      chefNote: "Recommended to experience our full array of royal flavors",
       count: totalCount,
     },
     {
       id: "appetizers" as const,
-      sectionNum: "Section I",
-      title: "Awadhi Starters",
-      subtitle: "Tandoori Skewers",
+      icon: "🍢",
+      title: "Sizzling Starters",
+      subtitle: "Awadhi Claypot Kebabs",
       description: "Fireside tandoori cottage cheese (Paneer Tikka), stuffed dry-fruit potatoes, and hand-rolled vegetable seekh kebabs.",
       bgColor: "bg-amber-50/25",
       borderColor: "border-[#C85C3A]/25",
       accentTextColor: "text-[#C85C3A]",
-      badge: "Kebab Craft",
-      chefNote: "Searing heat gives these a rich traditional finish",
+      badge: "Tandoor & Grill",
+      chefNote: "Searing claypot heat gives these starters a rich traditional finish",
       count: appetizersCount,
     },
     {
       id: "mains" as const,
-      sectionNum: "Section II",
+      icon: "🍲",
       title: "Imperial Mains",
-      subtitle: "Gravies & Naans",
+      subtitle: "Slow-Cooked Curries & Naans",
       description: "Creamy black Dal Makhani, velvety Shahi Paneer, and artisan tandoor-baked garlic naan bread coated with pure farm ghee.",
       bgColor: "bg-emerald-50/15",
       borderColor: "border-emerald-mid/25",
       accentTextColor: "text-emerald-brand",
-      badge: "18-Hour Simmer",
-      chefNote: "Slow-cooked inside heavy vessels to release deep aromas",
+      badge: "Slow-Simmered",
+      chefNote: "Each gravy is simmered slowly overnight in heavy brass pots",
       count: mainsCount,
     },
     {
       id: "drinks" as const,
-      sectionNum: "Section III",
-      title: "Saffron Shakes",
-      subtitle: "Cooling Elixirs",
+      icon: "🥛",
+      title: "Imperial Elixirs",
+      subtitle: "Saffron Shakes & Coolers",
       description: "Saffron milkshakes, cardamom-kissed lassis, and ice-chilled mint coolers to soothe the senses and digest spices.",
       bgColor: "bg-sky-50/20",
       borderColor: "border-sky-300/25",
       accentTextColor: "text-sky-700",
-      badge: "Golden Brews",
-      chefNote: "Excellent counterpart to hot Lucknowi spices",
+      badge: "Artisanal Brews",
+      chefNote: "Ideal cooling counterpart to enrich the Lucknowi spices",
       count: drinksCount,
     },
     {
       id: "desserts" as const,
-      sectionNum: "Section IV",
+      icon: "🍰",
       title: "Divine Desserts",
-      subtitle: "Mouth Watering Sweets",
+      subtitle: "Ghee Halwas & Gulab Jamun",
       description: "Ghee-roasted yellow lentil halwa, cardamom syrup gulab jamun, and delicate cottage-cheese sweet cakes.",
       bgColor: "bg-pink-50/20",
       borderColor: "border-pink-300/25",
       accentTextColor: "text-pink-700",
-      badge: "Silver Leafed",
-      chefNote: "Adorned with pure hand-beaten premium silver foil",
+      badge: "Royal Delicacies",
+      chefNote: "Traditional delicacies garnished with dry fruits and silver leaf",
       count: dessertsCount,
     },
   ];
@@ -1036,74 +1036,67 @@ export function MenuSection({}: MenuSectionProps) {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-ivory-dark pb-3">
             <div className="space-y-1 text-left">
               <span className="text-xs font-bold uppercase tracking-widest font-mono text-emerald-brand bg-white border border-ivory-dark px-2.5 py-1 rounded-md">
-                Menu Sections
+                Menu Categories
               </span>
               <h3 className="font-serif text-xl font-bold text-emerald-brand">
-                Choose a Category to Begin Browsing
+                Browse our Culinary Collections
               </h3>
             </div>
             <span className="text-xs font-mono text-charcoal-mid self-start sm:self-center bg-white px-3 py-1 rounded-full border border-ivory-dark/65">
-              🍽️ Tap a category card to filter items
+              🍽️ Select a category below to filter the menu
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {CULINARY_SECTIONS.map((sec) => {
               const isSelected = selectedCategory === sec.id;
               return (
                 <button
                   key={sec.id}
                   onClick={() => setSelectedCategory(sec.id)}
-                  className={`text-left rounded-2xl p-5 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[300px] h-full ${sec.bgColor} ${sec.borderColor} hover:-translate-y-1.5 hover:shadow-md focus:outline-none ${
+                  className={`text-left rounded-xl p-4 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[190px] h-full ${sec.bgColor} ${sec.borderColor} hover:-translate-y-1 hover:shadow-md focus:outline-none ${
                     isSelected
-                      ? "ring-3 ring-gold-brand border-gold-brand shadow-lg scale-[1.01] -translate-y-1"
+                      ? "ring-2 ring-gold-brand border-gold-brand shadow-md scale-[1.01]"
                       : "opacity-95 hover:opacity-100"
                   }`}
                 >
-                  {/* Selected Bookmark Ribbon */}
-                  {isSelected && (
-                    <div className="absolute right-4 top-0 w-4 h-8 bg-gold-brand rounded-b-md shadow-xs flex items-center justify-center pointer-events-none">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-brand" />
-                    </div>
-                  )}
-
                   {/* Body Info */}
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-gold-brand/20 text-[#A27B2C] border border-gold-brand/15">
-                        {sec.sectionNum}
+                      <span className="text-xl">
+                        {sec.icon}
                       </span>
-                      <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded-full border ${isSelected ? "bg-emerald-brand text-gold-brand border-gold-brand/30" : "bg-white text-charcoal-dark border-ivory-dark"}`}>
-                        {sec.count} dishes
+                      <span className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded-full border ${isSelected ? "bg-emerald-brand text-gold-brand border-gold-brand/30" : "bg-white text-charcoal-dark border-ivory-dark"}`}>
+                        {sec.count} items
                       </span>
                     </div>
 
-                    <h4 className={`font-serif text-lg font-bold leading-tight ${sec.accentTextColor}`}>
+                    <h4 className={`font-serif text-base font-bold leading-tight ${sec.accentTextColor}`}>
                       {sec.title}
                     </h4>
                     
-                    <span className="block text-[10px] uppercase tracking-wide font-mono font-bold text-charcoal-mid leading-relaxed select-none">
+                    <span className="block text-[9px] uppercase tracking-wide font-mono font-bold text-charcoal-mid leading-relaxed select-none">
                       {sec.subtitle}
                     </span>
 
-                    <p className="text-charcoal-dark text-xs font-light leading-relaxed line-clamp-4 font-sans">
+                    <p className="text-charcoal-dark text-[11px] font-light leading-relaxed line-clamp-3 font-sans">
                       {sec.description}
                     </p>
                   </div>
 
                   {/* Chef tip & active highlight */}
-                  <div className="space-y-2 mt-4 pt-3 border-t border-dashed border-charcoal-mid/10 w-full">
-                    <div className="flex gap-1.5 text-[10px] text-charcoal-mid/95 bg-white/70 rounded-lg p-2 border border-ivory-dark select-none">
-                      <span className="text-xs shrink-0 text-gold-brand">💡</span>
-                      <span className="font-sans leading-tight italic line-clamp-2">{sec.chefNote}</span>
+                  <div className="space-y-1.5 mt-3 pt-2.5 border-t border-dashed border-charcoal-mid/10 w-full">
+                    <div className="flex gap-1 text-[9.5px] text-charcoal-mid/95 select-none leading-none">
+                      <span className="shrink-0 text-gold-brand">💡</span>
+                      <span className="font-sans italic line-clamp-1">{sec.chefNote}</span>
                     </div>
 
                     <div className="w-full flex items-center justify-between pt-1">
-                      <span className="text-[10px] font-bold tracking-widest font-mono uppercase bg-white px-2 py-0.5 rounded border border-ivory-dark/65">
+                      <span className="text-[9px] font-bold tracking-widest font-mono uppercase bg-white px-1.5 py-0.5 rounded border border-ivory-dark/65">
                         {sec.badge}
                       </span>
-                      <span className={`text-[10px] font-bold font-mono tracking-wider ${isSelected ? 'text-gold-brand underline decoration-gold-brand decoration-2' : 'text-charcoal-mid'}`}>
-                        {isSelected ? "🍽️ SELECTED" : "👁️ VIEW"}
+                      <span className={`text-[9px] font-bold font-mono tracking-wider ${isSelected ? 'text-gold-brand underline decoration-gold-brand decoration-2' : 'text-charcoal-mid'}`}>
+                        {isSelected ? "● FILTERED" : "○ SHOW ALL"}
                       </span>
                     </div>
                   </div>
