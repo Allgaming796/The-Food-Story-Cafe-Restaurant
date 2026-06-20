@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Utensils, CalendarDays, Sparkles, MapPin, ShieldCheck, Heart, Instagram, Facebook } from "lucide-react";
+import { Utensils, CalendarDays, MapPin, ShieldCheck, Heart, Instagram, Facebook } from "lucide-react";
 
 interface HeroSectionProps {
   onNavigate: (section: "menu" | "booking" | "banquet" | "reviews") => void;
@@ -31,16 +31,6 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
         
         {/* Left story-dense narrative */}
         <div className="lg:col-span-7 space-y-6 text-left">
-          <motion.div
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-mid border border-emerald-light/40 text-gold-light text-xs font-semibold tracking-widest uppercase font-mono"
-          >
-            <Sparkles className="w-4 h-4 text-gold-brand animate-pulse" />
-            <span>Pure Vegetarian • Shahjahanpur, UP</span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -76,10 +66,10 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
               ❄️ Fully Air Conditioned
             </span>
             <span className="bg-emerald-mid border border-emerald-light/30 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5">
-              🏛️ 2 Banquet Halls
+              🏛️ 3 Banquet Halls
             </span>
             <span className="bg-emerald-mid border border-emerald-light/30 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5">
-              👥 150 Seating Capacity
+              👥 150+ Seating Capacity
             </span>
           </motion.div>
 
