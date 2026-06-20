@@ -716,6 +716,17 @@ export function MenuSection({}: MenuSectionProps) {
 
   const [visibleLimit, setVisibleLimit] = useState(4);
 
+  // Toggle state to control image presence and compact sizing
+  const [menuImageView, setMenuImageView] = useState<"none" | "thumbnail" >(() => {
+    const saved = localStorage.getItem("tfs_menu_image_view");
+    return (saved === "thumbnail" ? "thumbnail" : "none") as "none" | "thumbnail";
+  });
+
+  const changeMenuImageView = (view: "none" | "thumbnail") => {
+    setMenuImageView(view);
+    localStorage.setItem("tfs_menu_image_view", view);
+  };
+
   // Automatically reset visible limit when filters or searches change
   useEffect(() => {
     setVisibleLimit(4);
@@ -970,6 +981,38 @@ export function MenuSection({}: MenuSectionProps) {
           </div>
         </div>
 
+        {/* View Mode controls */}
+        <div className="flex flex-col sm:flex-row justify-between items-center bg-white border border-ivory-dark rounded-2xl p-4 gap-4" id="image-toggle-bar">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-brand animate-pulse" />
+            <p className="text-xs text-charcoal-mid font-medium font-sans">
+              Showing <span className="font-bold text-emerald-brand">{filteredItems.length}</span> signature delicacies from the royal kitchen
+            </p>
+          </div>
+          <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/65 rounded-xl p-1 shrink-0">
+            <button
+              onClick={() => changeMenuImageView("none")}
+              className={`px-4 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition duration-200 cursor-pointer flex items-center gap-1.5 ${
+                menuImageView === "none"
+                  ? "bg-emerald-brand text-white shadow-xs"
+                  : "text-charcoal-mid hover:text-emerald-brand"
+              }`}
+            >
+              <span>🚫 Text Only</span>
+            </button>
+            <button
+              onClick={() => changeMenuImageView("thumbnail")}
+              className={`px-4 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition duration-200 cursor-pointer flex items-center gap-1.5 ${
+                menuImageView === "thumbnail"
+                  ? "bg-emerald-brand text-white shadow-xs"
+                  : "text-charcoal-mid hover:text-emerald-brand"
+              }`}
+            >
+              <span>🖼️ Compact Images</span>
+            </button>
+          </div>
+        </div>
+
         {/* Main Menu Grid / Split Layout with Interactive Platter Cart */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
@@ -989,40 +1032,44 @@ export function MenuSection({}: MenuSectionProps) {
                       key={item.id}
                       className="group relative bg-white rounded-3xl border border-ivory-dark/90 hover:border-gold-brand/60 overflow-hidden transition-all shadow-sm hover:shadow-md flex flex-col justify-between"
                     >
-                      {/* Premium 4:3 Dish Image Banner with Zoom Effect */}
-                      <div className="relative aspect-[4/3] w-full overflow-hidden bg-ivory-brand border-b border-ivory-dark/40">
-                        <img
-                          src={getDishImage(item)}
-                          alt={item.name}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                        />
-                        {/* Subtle elegant gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-
-                        {/* Corner Tag layered over the photo */}
-                        {item.tags && item.tags[0] && (
-                          <div className="absolute right-3 top-3 bg-white/95 backdrop-blur-xs text-emerald-brand text-[9px] font-mono font-bold px-2.5 py-1 rounded-full border border-ivory-dark/50 shadow-xs">
-                            {item.tags[0]}
-                          </div>
-                        )}
-                      </div>
-
                       {/* Card Content block */}
                       <div className="p-5 flex flex-col justify-between flex-grow">
-                        <div className="space-y-2.5">
-                          {/* Name & Spiciness indicators */}
-                          <div className="space-y-1 font-sans">
-                            <h4 className="font-serif text-base font-bold text-emerald-brand pr-2 group-hover:text-gold-brand transition leading-tight">
-                              {item.name}
-                            </h4>
-                            
-                            {item.spiciness !== undefined && item.spiciness > 0 && (
-                              <div className="flex items-center text-[#C85C3A] gap-0.5 animate-pulse">
-                                {Array.from({ length: item.spiciness }).map((_, i) => (
-                                  <Flame key={i} className="w-3 h-3 fill-[#C85C3A] text-[#C85C3A]" />
-                                ))}
-                                <span className="text-[9px] font-mono text-charcoal-mid ml-1">Spicy</span>
+                        <div className="space-y-3">
+                          <div className="flex gap-4 items-start justify-between">
+                            <div className="space-y-1.5 flex-1">
+                              {/* Corner Tag inline category bubble */}
+                              {item.tags && item.tags[0] && (
+                                <span className="inline-block bg-emerald-brand/5 text-[9px] font-mono font-bold px-2 py-0.5 rounded text-emerald-brand border border-emerald-brand/10 mb-1">
+                                  {item.tags[0]}
+                                </span>
+                              )}
+                              
+                              {/* Name & Spiciness indicators */}
+                              <div className="space-y-1 font-sans">
+                                <h4 className="font-serif text-base font-bold text-emerald-brand pr-2 group-hover:text-gold-brand transition leading-tight">
+                                  {item.name}
+                                </h4>
+                                
+                                {item.spiciness !== undefined && item.spiciness > 0 && (
+                                  <div className="flex items-center text-[#C85C3A] gap-0.5 animate-pulse">
+                                    {Array.from({ length: item.spiciness }).map((_, i) => (
+                                      <Flame key={i} className="w-3 h-3 fill-[#C85C3A] text-[#C85C3A]" />
+                                    ))}
+                                    <span className="text-[9px] font-mono text-charcoal-mid ml-1">Spicy</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Compact Small image on the right which can be styled and toggled */}
+                            {menuImageView === "thumbnail" && (
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-ivory-brand border border-ivory-dark/60 shrink-0 shadow-2xs">
+                                <img
+                                  src={getDishImage(item)}
+                                  alt={item.name}
+                                  referrerPolicy="no-referrer"
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                                />
                               </div>
                             )}
                           </div>

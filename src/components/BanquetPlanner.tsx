@@ -51,6 +51,15 @@ const DECOR_THEMES: BanquetTheme[] = [
     image: "⚡",
     color: "#4DEEEA",
     highlights: ["Colorful Neon Signs", "Fun Bright Lighting", "Modern Party Backdrop"],
+  },
+  {
+    id: "theme-balloons",
+    name: "Joyful Balloon Celebration",
+    description: "Colorful balloon arches, vibrant helium pillars, and customized balloon backdrops perfect for cheerful birthday parties, kitty parties, and family gatherings.",
+    pricePerGuest: 80,
+    image: "🎈",
+    color: "#F43F5E",
+    highlights: ["Vibrant Balloon Arches", "Custom Balloon Pillars", "Fun Colorful Backdrops"],
   }
 ];
 
