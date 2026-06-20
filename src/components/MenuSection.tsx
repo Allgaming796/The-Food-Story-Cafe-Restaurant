@@ -1098,14 +1098,14 @@ export function MenuSection({}: MenuSectionProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-3">
+          <div className="flex overflow-x-auto pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 scroll-smooth snap-x snap-mandatory sm:grid sm:grid-cols-5 gap-2 sm:gap-3 w-auto scrollbar-thin">
             {CULINARY_SECTIONS.map((sec) => {
               const isSelected = selectedCategory === sec.id;
               return (
                 <button
                   key={sec.id}
                   onClick={() => setSelectedCategory(sec.id)}
-                  className={`text-left rounded-lg p-2 sm:p-3 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[72px] sm:min-h-[105px] h-full ${sec.bgColor} ${sec.borderColor} hover:-translate-y-0.5 hover:shadow-xs focus:outline-none ${
+                  className={`flex-none w-[125px] sm:w-auto snap-start text-left rounded-lg p-2 sm:p-3 border transition-all duration-300 relative cursor-pointer flex flex-col justify-between min-h-[72px] sm:min-h-[105px] h-full ${sec.bgColor} ${sec.borderColor} hover:-translate-y-0.5 hover:shadow-xs focus:outline-none ${
                     isSelected
                       ? "ring-2 ring-gold-brand border-gold-brand shadow-sm scale-[1.01]"
                       : "opacity-95 hover:opacity-100"
@@ -1200,7 +1200,8 @@ export function MenuSection({}: MenuSectionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
               <AnimatePresence mode="popLayout">
                 {visibleItems.map((item) => {
-                  const size = itemSizes[item.id] || "large";
+                  const isPizza = item.name.toLowerCase().includes("pizza");
+                  const size = isPizza ? (itemSizes[item.id] || "large") : "large";
                   const smallPrice = Math.round(item.price * 0.65);
                   const largePrice = item.price;
                   const activePrice = size === "small" ? smallPrice : largePrice;
@@ -1274,39 +1275,41 @@ export function MenuSection({}: MenuSectionProps) {
                           </div>
 
                           {/* Portion Size Selection buttons */}
-                          <div className="flex gap-2 pt-2 bg-ivory-brand/45 p-1 rounded-xl border border-ivory-dark/40 select-none">
-                            <button
-                              role="radio"
-                              aria-checked={size === "small"}
-                              onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "small" }))}
-                              className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
-                                size === "small"
-                                  ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
-                                  : "text-charcoal-mid hover:text-emerald-brand bg-white"
-                              }`}
-                            >
-                              {(item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium" : "Small"} (₹{smallPrice})
-                            </button>
-                            <button
-                              role="radio"
-                              aria-checked={size === "large"}
-                              onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "large" }))}
-                              className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
-                                size === "large"
-                                  ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
-                                  : "text-charcoal-mid hover:text-emerald-brand bg-white"
-                              }`}
-                            >
-                              Large (₹{largePrice})
-                            </button>
-                          </div>
+                          {isPizza && (
+                            <div className="flex gap-2 pt-2 bg-ivory-brand/45 p-1 rounded-xl border border-ivory-dark/40 select-none">
+                              <button
+                                role="radio"
+                                aria-checked={size === "small"}
+                                onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "small" }))}
+                                className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
+                                  size === "small"
+                                    ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
+                                    : "text-charcoal-mid hover:text-emerald-brand bg-white"
+                                }`}
+                              >
+                                {(item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium" : "Small"} (₹{smallPrice})
+                              </button>
+                              <button
+                                role="radio"
+                                aria-checked={size === "large"}
+                                onClick={() => setItemSizes((prev) => ({ ...prev, [item.id]: "large" }))}
+                                className={`flex-1 py-1 px-2 rounded-lg text-[9px] font-mono tracking-wider font-bold uppercase transition-all duration-200 cursor-pointer ${
+                                  size === "large"
+                                    ? "bg-emerald-brand text-gold-brand shadow-xs font-extrabold"
+                                    : "text-charcoal-mid hover:text-emerald-brand bg-white"
+                                }`}
+                              >
+                                Large (₹{largePrice})
+                              </button>
+                            </div>
+                          )}
                         </div>
 
                         {/* bottom pricing & interactivity */}
                         <div className="flex items-center justify-between pt-3 mt-3 border-t border-ivory-dark/50">
                           <div className="flex flex-col text-left">
                             <span className="text-[9px] font-bold tracking-wider font-mono text-charcoal-mid uppercase leading-none mb-1">
-                              {size === "small" ? ((item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium Pizza" : "Small Portion") : ((item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Large Pizza" : "Large Portion")}
+                              {isPizza ? (size === "small" ? "Medium Pizza" : "Large Pizza") : "Standard Portion"}
                             </span>
                             <span className="font-mono text-xs sm:text-sm font-bold text-emerald-brand">
                               ₹{activePrice}
