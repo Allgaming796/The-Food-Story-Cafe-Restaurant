@@ -13,38 +13,38 @@ const FAQ_DATA: FAQItem[] = [
   {
     id: "f1",
     category: "banquet",
-    question: "What is the capacity of the Grand Memoir Banquet Hall, and how far in advance should we book?",
-    answer: "We feature two fully air-conditioned banquet halls with a combined capacity of up to 300 guests (or 150 seated guests comfortably per hall). For weekend family celebrations or prime Roka/wedding dates, we highly recommend locking in your date at least 2 to 3 months in advance to ensure chronological priority."
+    question: "What is the capacity of the banquet halls, and how far in advance should we book?",
+    answer: "We have three air-conditioned banquet halls with a combined capacity of up to 300 guests (around 100 to 150 guests per hall). For weekend parties or wedding dates, we suggest booking your date at least 2 to 3 months early so you do not miss out."
   },
   {
     id: "f2",
     category: "dietary",
-    question: "Is your menu 100% pure vegetarian? Do you accommodate Sattvic (no onion/garlic) specifications?",
-    answer: "Absolutely! The Food Story is a strictly 100% pure vegetarian culinary establishment. Our kitchens respect religious and regional food legacies. We provide specialized Sattvic options directly on request, and our culinary hosts take meticulous care to manage allergens and custom dietary exclusions."
+    question: "Is your menu 100% pure vegetarian? Do you make food without onion and garlic (Sattvic)?",
+    answer: "Yes! The Food Story is a 100% pure vegetarian restaurant. We do not use meat, fish, or eggs in our kitchen. We also make Jain and Sattvic food (without onion and garlic) if you request it."
   },
   {
     id: "f3",
     category: "hours",
-    question: "What are the daily operating hours for dine-in and private celebrations?",
-    answer: "Our main restaurant operations run from 11:00 AM to 10:30 PM on weekdays (Mon–Fri), and 10:00 AM to 11:00 PM on weekends (Sat–Sun). For pre-registered banquet bookings and wedding after-parties, event timelines can be extended with special management approvals up to midnight."
+    question: "What are your daily operating hours?",
+    answer: "Our restaurant is open from 11:00 AM to 10:30 PM every day. For private bookings and banquet events, timelines can be extended with special permission from our team."
   },
   {
     id: "f4",
     category: "banquet",
-    question: "Can we customize our decoration themes, or are we limited to the predefined setups?",
-    answer: "While our four catalog themes—Royal Gold, Pastel Floral, Elegant Ivory, and Neon Party—map pre-engineered luxury settings at excellent packaged value, they are fully customizable. You can consult with our AI Curator or sit down with our graphic events team to adjust colors, floral pairings, and custom neon light signboards."
+    question: "Can we customize the decoration themes, or do we have to use the main ones?",
+    answer: "Yes, you can fully customize the decoration themes! Our main themes (Royal Gold, Pastel Floral, Elegant Ivory, and Neon Party) are ready-made options, but you can change colors, flowers, or neon lights with our team to match your exact concept."
   },
   {
     id: "f5",
     category: "general",
-    question: "Is there an upfront advance fee required to secure a booking on the calendar?",
-    answer: "Drafting an estimate on our web planner is entirely free. After verifying your celebration date and food courses, a 25% token deposit is requested to formally block the hall. The remainder can be settled in flexible installments up to the day of your grand family milestone."
+    question: "Do we need to pay an advance fee to book the hall?",
+    answer: "Making an estimate or draft booking is completely free. Once you confirm the date and menu, we ask for a 25% deposit to reserve the banquet hall. You can pay the rest on or before the day of your event."
   },
   {
     id: "f6",
     category: "dietary",
-    question: "Can we get custom sweets or special kids' food counter options included in our catering package?",
-    answer: "Yes, our gold and platinum feast configurations are designed to be highly modular. From custom-themed multi-tier designer truffle cakes, chocolate fountains, live clay-pot Jalebi/Rabri hubs, to slider and mini-pizza bars customized for younger children, our executive chef can assemble anything to tell your story."
+    question: "Can we add child-friendly food or live counters to our booking?",
+    answer: "Yes, our food packages are very flexible. You can add special sweets, live stalls (like hot Jalebi or Rabri), and kids' favorite items like mini pizzas and sliders. Just let our team know what you want!"
   }
 ];
 

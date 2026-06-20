@@ -421,15 +421,15 @@ _Stored & verified in The Food Story Digital Reservation Desk._`;
             <ul className="space-y-3.5 text-xs text-slate-100 font-light font-sans">
               <li className="flex items-start gap-2.5">
                 <span className="text-gold-brand font-bold mt-0.5">•</span>
-                <span><strong>Pure Vegetarian Sanctuary:</strong> No outside food, eggs, or meat items are permitted within our premises.</span>
+                <span><strong>Pure Vegetarian:</strong> We are a pure veg restaurant. Outside food, eggs, or meat are not allowed inside.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-gold-brand font-bold mt-0.5">•</span>
-                <span><strong>Grace Period:</strong> Tables are held for a maximum of 15 minutes past your scheduled reservation time before release.</span>
+                <span><strong>15-Minute Wait:</strong> We hold tables for up to 15 minutes past your booking time.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-gold-brand font-bold mt-0.5">•</span>
-                <span><strong>Large Gatherings:</strong> For parties larger than 20 diners, please configure a package in our <strong>Grand Memoir Hall</strong> planner.</span>
+                <span><strong>Large Groups:</strong> If you have more than 20 guests, please book our banquet hall.</span>
               </li>
             </ul>
 

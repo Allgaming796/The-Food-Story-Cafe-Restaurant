@@ -49,7 +49,7 @@ export function HeroSection({ onNavigate }: HeroSectionProps) {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-white/80 text-base sm:text-lg max-w-xl font-light leading-relaxed font-sans"
           >
-            Two elegant halls. 150 comfortable seats. A luxury fine-dining space crafted for celebrations, family connections, and pure vegetarian flavours that linger long after the last bite.
+            Three clean halls. 150+ comfortable seats. A simple, delicious vegetarian restaurant built for family meals, happy celebrations, and fresh vegetarian dishes cooked with love.
           </motion.p>
 
           {/* Quick Features list */}
