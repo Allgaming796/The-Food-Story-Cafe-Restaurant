@@ -104,6 +104,11 @@ If the customer has preferences, they are: ${JSON.stringify(userPreferences || {
     res.status(404).send("Google site verification file not found in build directory or root.");
   });
 
+  // Serve static assets from public folder in development to ensure images load correctly
+  if (process.env.NODE_ENV !== "production") {
+    app.use(express.static(path.join(process.cwd(), "public")));
+  }
+
   // Serve static assets or use Vite middleware
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
