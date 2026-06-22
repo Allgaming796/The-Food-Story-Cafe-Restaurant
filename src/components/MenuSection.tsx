@@ -8,28 +8,28 @@ export const getDishImage = (item: MenuItem): string => {
 
   // 1. Direct matching to custom generated AI food images
   if (lowerName.includes("pav bhaji") || item.id === "bf7") {
-    return "/src/assets/images/pav_bhaji_deluxe_1781831942822.jpg";
+    return "/assets/images/pav_bhaji_deluxe_1781831942822.jpg";
   }
   if (lowerName.includes("aloo paratha") || item.id === "bf2") {
-    return "/src/assets/images/aloo_paratha_deluxe_1781831957455.jpg";
+    return "/assets/images/aloo_paratha_deluxe_1781831957455.jpg";
   }
   if (lowerName.includes("maggi") || lowerName.includes("noodles")) {
-    return "/src/assets/images/veg_masala_maggi_1781825948836.jpg";
+    return "/assets/images/veg_masala_maggi_1781825948836.jpg";
   }
   if (lowerName.includes("rose pasta") || lowerName.includes("pink sauce")) {
-    return "/src/assets/images/rose_pasta_craft_1781825861248.jpg";
+    return "/assets/images/rose_pasta_craft_1781825861248.jpg";
   }
   if (item.id === "bf6" || item.id === "bf1") {
     // Chhole Bhature or Poori Aloo
-    return "/src/assets/images/chhole_bhature_1781825559053.jpg";
+    return "/assets/images/chhole_bhature_1781825559053.jpg";
   }
   if (item.id === "app4" || item.id === "app1" || item.id === "app3") {
     // Tandoori Platter
-    return "/src/assets/images/tandoori_platter_1781825576474.jpg";
+    return "/assets/images/tandoori_platter_1781825576474.jpg";
   }
   if (item.id.startsWith("pz") || item.name.toLowerCase().includes("pizza")) {
     // Sourdough Pizza
-    return "/src/assets/images/sourdough_pizza_1781825589371.jpg";
+    return "/assets/images/sourdough_pizza_1781825589371.jpg";
   }
   if (
     item.id === "mn2" || 
@@ -39,7 +39,7 @@ export const getDishImage = (item: MenuItem): string => {
     item.name.toLowerCase().includes("kofta")
   ) {
     // Paneer butter masala or rich mains curry
-    return "/src/assets/images/paneer_butter_masala_1781825605890.jpg";
+    return "/assets/images/paneer_butter_masala_1781825605890.jpg";
   }
   if (
     item.id.startsWith("ds") || 
@@ -48,7 +48,7 @@ export const getDishImage = (item: MenuItem): string => {
     item.name.toLowerCase().includes("halwa")
   ) {
     // Waffles, Halwa, Brownies
-    return "/src/assets/images/dessert_waffle_1781825622918.jpg";
+    return "/assets/images/dessert_waffle_1781825622918.jpg";
   }
 
   // 2. Unsplash high-resolution food photography URLs

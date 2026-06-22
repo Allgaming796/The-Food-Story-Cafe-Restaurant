@@ -7,22 +7,22 @@ import { RAW_MENU } from "./MenuSection";
 
 const IVORY_HALL_PHOTOS = [
   {
-    src: "/src/assets/images/ivory_hall_tables_1782121356625.jpg",
+    src: "/assets/images/ivory_hall_tables_1782121356625.jpg",
     title: "Regal Banquet Dining Setup",
     desc: "A meticulous formal setup featuring elegant long white tables, plush beige tufted chairs, golden-damask wallpaper panels, and warm cove grid ceilings."
   },
   {
-    src: "/src/assets/images/ivory_hall_counter_1782121336955.jpg",
+    src: "/assets/images/ivory_hall_counter_1782121336955.jpg",
     title: "Artisanal Cafe & Dessert Bar",
     desc: "A vibrant, stylish corner displaying our refrigerated pastry case, custom vertical-slat paneling, and deep blue velvet seating under colorful balloons."
   },
   {
-    src: "/src/assets/images/ivory_hall_booths_1782121378592.jpg",
+    src: "/assets/images/ivory_hall_booths_1782121378592.jpg",
     title: "Premium Family Dining Booths",
     desc: "Cozy leather-backed booth arrays divided by planter box greenery, placed next to black steel grid windows with climbing foliage."
   },
   {
-    src: "/src/assets/images/ivory_hall_room_1782121394192.jpg",
+    src: "/assets/images/ivory_hall_room_1782121394192.jpg",
     title: "Generous Main Banquet Hall",
     desc: "Spacious combined banquet dining area showcasing premium track spotlights, ceiling fans, and versatile seating perfect for gatherings up to 300."
   }
