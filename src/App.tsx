@@ -19,7 +19,8 @@ import {
   Copy,
   Check,
   Instagram,
-  ArrowUp
+  ArrowUp,
+  X
 } from "lucide-react";
 
 // Substructure component imports
@@ -39,6 +40,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("menu");
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -368,18 +370,132 @@ export default function App() {
         </motion.div>
 
         {/* copyright and credit rail */}
-        <div className="bg-emerald-mid/50 py-6 border-t border-emerald-mid/30 text-center text-[10px] text-gray-500 font-mono flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-4">
+        <div className="bg-emerald-mid/50 py-6 border-t border-emerald-mid/30 text-center text-[10px] text-gray-400 font-mono flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-4">
           <p>© 2026 The Food Story Café & Ivory Banquet. All Rights Reserved.</p>
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
-              <Heart className="w-3 h-3 text-indigo-500 fill-indigo-500" />
+          <div className="flex items-center gap-3 justify-center flex-wrap">
+            <span className="flex items-center gap-1.5 text-gray-300">
+              <Heart className="w-3.5 h-3.5 text-gold-brand fill-gold-brand animate-pulse" />
               <span>Pure Vegetarian Excellence</span>
             </span>
             <span>•</span>
-            <span>Locally Harvested Ingredients</span>
+            <button 
+              onClick={() => setShowPrivacyPolicy(true)}
+              className="hover:text-gold-light text-gray-300 hover:underline transition duration-200 cursor-pointer text-[10px] font-mono font-semibold"
+            >
+              Privacy Policy
+            </button>
+            <span>•</span>
+            <span className="text-gray-300">Locally Harvested Ingredients</span>
           </div>
         </div>
       </footer>
+
+      {/* PRIVACY POLICY MODAL */}
+      <AnimatePresence>
+        {showPrivacyPolicy && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowPrivacyPolicy(false)}
+              className="absolute inset-0 bg-charcoal-dark/70 backdrop-blur-md"
+            />
+            
+            {/* Modal Box */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 30 }}
+              transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
+              className="relative w-full max-w-2xl bg-white rounded-3xl border border-ivory-dark overflow-hidden shadow-2xl z-10 flex flex-col max-h-[85vh] text-left"
+            >
+              {/* Header */}
+              <div className="p-6 border-b border-ivory-dark/60 bg-gradient-to-r from-emerald-brand to-emerald-mid text-white flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gold-brand flex items-center justify-center text-emerald-brand font-serif font-bold text-sm">
+                    TFS
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-lg font-bold">Privacy Policy</h3>
+                    <p className="text-[10px] text-gold-light/90 font-mono tracking-wider uppercase">The Food Story Café & Banquet</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowPrivacyPolicy(false)}
+                  className="p-1.5 rounded-full hover:bg-emerald-light/40 transition-colors text-white cursor-pointer"
+                  aria-label="Close modal"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Content Body */}
+              <div className="p-6 sm:p-8 overflow-y-auto text-sm text-charcoal-dark leading-relaxed space-y-6">
+                <div>
+                  <h4 className="font-serif text-base font-bold text-emerald-brand mb-2">1. Introduction</h4>
+                  <p className="text-gray-600 font-light">
+                    Welcome to <strong>The Food Story Café & Ivory Banquet</strong>. We respect your privacy and are committed to protecting the personal information you share with us. This Privacy Policy outlines how we collect, use, and safe-guard your information when you browse our menu, reserve a table, or request a banquet hall planning quote.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-base font-bold text-emerald-brand mb-2">2. Information We Collect</h4>
+                  <p className="text-gray-600 font-light mb-2">
+                    When you utilize our reservation system or plan your banquets online with us, we request standard booking details:
+                  </p>
+                  <ul className="list-disc pl-5 text-gray-600 font-light space-y-1">
+                    <li>Contact details such as name, email address, and phone number.</li>
+                    <li>Booking selections comprising date, time, guest count, and dining choices.</li>
+                    <li>Ivory Banquet gathering choices, estimated headcount, and message preferences.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-base font-bold text-emerald-brand mb-2">3. How We Use Your Information</h4>
+                  <p className="text-gray-600 font-light mb-2">
+                    Your information is utilized solely to enhance your hospitality saga:
+                  </p>
+                  <ul className="list-disc pl-5 text-gray-600 font-light space-y-1">
+                    <li>Confirm and coordinate your table or banquet reservations.</li>
+                    <li>Deliver dining updates, timing shifts, or request follow-ups.</li>
+                    <li>Maintain internal logs to provide pure vegetarian excellence.</li>
+                  </ul>
+                  <p className="text-gray-600 font-light mt-2">
+                    We do not sell, distribute, rent, or lease your personal credentials with any third-party marketing brokers.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-base font-bold text-emerald-brand mb-2">4. Digital Cookies & Web Tech</h4>
+                  <p className="text-gray-600 font-light">
+                    We save basic interaction states locally (such as your vegetarian filters or custom banquet planner parameters) to provide a localized, continuous, and responsive site design. No trackers are utilized.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-base font-bold text-emerald-brand mb-2">5. Updates & Queries</h4>
+                  <p className="text-gray-600 font-light">
+                    Our team updates this policy in tandem with regulatory requirements. For any clarifications or to modify your booking specifications, please feel free to reach out to us directly at <strong>+91 77528 17300</strong>, or stop by in person at Hanumat Dham Road, Shahjahanpur.
+                  </p>
+                </div>
+              </div>
+
+              {/* Policy Footer */}
+              <div className="p-4 bg-ivory-light border-t border-ivory-dark/60 flex justify-between items-center text-[11px] font-mono text-gray-500">
+                <span>Effective Date: June 2026</span>
+                <button
+                  onClick={() => setShowPrivacyPolicy(false)}
+                  className="px-4 py-1.5 bg-emerald-brand hover:bg-emerald-mid text-gold-brand hover:text-white rounded-lg transition-colors font-sans text-xs font-bold cursor-pointer"
+                >
+                  Close Window
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* FLOATING WHATSAPP BUTTON */}
       <a 
