@@ -31,6 +31,7 @@ import { ReviewsSection } from "./components/ReviewsSection";
 import { FAQSection } from "./components/FAQSection";
 import { DineInStatus } from "./components/DineInStatus";
 import { WhyChooseUs } from "./components/WhyChooseUs";
+import { LocationMap } from "./components/LocationMap";
 
 type ActiveTab = "menu" | "booking" | "banquet" | "reviews";
 
@@ -211,7 +212,7 @@ export default function App() {
                 }`}
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>Patron Chronicles</span>
+                <span>Reviews & FAQs</span>
                 {activeTab === "reviews" && (
                   <motion.div
                     layoutId="activeTabUnderline"
@@ -260,6 +261,9 @@ export default function App() {
 
         {/* Why Choose Us feature lists trust section */}
         <WhyChooseUs />
+
+        {/* Google Maps Location pointer section */}
+        <LocationMap />
       </main>
 
       {/* Elegant Footer panel */}
