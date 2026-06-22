@@ -1,9 +1,32 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Users, PartyPopper, Cake, Camera, Music, Calendar, DollarSign, CheckCircle2, TicketPlus, Sparkles, Send, Share2 } from "lucide-react";
+import { Users, PartyPopper, Cake, Camera, Music, Calendar, DollarSign, CheckCircle2, TicketPlus, Sparkles, Send, Share2, Image as ImageIcon } from "lucide-react";
 import { BanquetTheme, CateringPackage, BanquetEstimate } from "../types";
 import { ReservationForm } from "./ReservationForm";
 import { RAW_MENU } from "./MenuSection";
+
+const IVORY_HALL_PHOTOS = [
+  {
+    src: "/src/assets/images/ivory_hall_tables_1782121356625.jpg",
+    title: "Regal Banquet Dining Setup",
+    desc: "A meticulous formal setup featuring elegant long white tables, plush beige tufted chairs, golden-damask wallpaper panels, and warm cove grid ceilings."
+  },
+  {
+    src: "/src/assets/images/ivory_hall_counter_1782121336955.jpg",
+    title: "Artisanal Cafe & Dessert Bar",
+    desc: "A vibrant, stylish corner displaying our refrigerated pastry case, custom vertical-slat paneling, and deep blue velvet seating under colorful balloons."
+  },
+  {
+    src: "/src/assets/images/ivory_hall_booths_1782121378592.jpg",
+    title: "Premium Family Dining Booths",
+    desc: "Cozy leather-backed booth arrays divided by planter box greenery, placed next to black steel grid windows with climbing foliage."
+  },
+  {
+    src: "/src/assets/images/ivory_hall_room_1782121394192.jpg",
+    title: "Generous Main Banquet Hall",
+    desc: "Spacious combined banquet dining area showcasing premium track spotlights, ceiling fans, and versatile seating perfect for gatherings up to 300."
+  }
+];
 
 const CUSTOM_CATEGORIES = [
   { id: "breakfast", label: "🥐 Breakfast & Short Eats", prefixes: ["bf", "se"] },
@@ -107,6 +130,7 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
   const [selectedPkgId, setSelectedPkgId] = useState<string>("pkg-gold");
   const [expandedPackageIncludes, setExpandedPackageIncludes] = useState<Record<string, boolean>>({});
   const [expandedCustomIncludes, setExpandedCustomIncludes] = useState<boolean>(false);
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
   
   // Custom Food Food Product State selectors
   const [customSelectedItems, setCustomSelectedItems] = useState<string[]>(["app3", "app5", "pz4", "mn1", "mn3", "sd2", "dr8", "ds6"]);
@@ -209,6 +233,115 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
           <p className="text-charcoal-mid text-sm sm:text-base font-light font-sans max-w-xl mx-auto leading-relaxed">
             Customize luxury decor backdrops, select signature pure-vegetarian feasts, coordinate live additions, and estimate celebration costs in real-time.
           </p>
+        </div>
+
+        {/* IVORY HALL REAL VENUE GALLERY */}
+        <div className="bg-white rounded-3xl border border-ivory-dark overflow-hidden shadow-xs p-6 sm:p-8 space-y-6 text-left">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-ivory-dark pb-4">
+            <div className="space-y-1">
+              <span className="flex items-center gap-2 text-gold-brand text-xs font-bold tracking-wider uppercase font-mono">
+                <ImageIcon className="w-4 h-4 text-gold-brand shrink-0" />
+                <span>Real Venue Showcase</span>
+              </span>
+              <h3 className="font-serif text-2xl font-bold text-emerald-brand">
+                Discover the Grandeur of Ivory Hall & Café
+              </h3>
+              <p className="text-gray-500 text-xs sm:text-sm font-light">
+                Actual high-resolution photographs of our decorated tables, cozy dining booth seating, and artisanal cafe counters.
+              </p>
+            </div>
+            <div className="flex items-center gap-1.5 self-stretch md:self-auto justify-end">
+              {IVORY_HALL_PHOTOS.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActivePhotoIdx(idx)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    idx === activePhotoIdx ? "bg-gold-brand w-5" : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+                  aria-label={`Slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Main Stage (Large Viewer) */}
+            <div className="lg:col-span-8 relative aspect-[4/3] rounded-2xl overflow-hidden group border border-ivory-dark bg-charcoal-dark shadow-inner min-h-[260px] md:min-h-[360px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activePhotoIdx}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.02 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="absolute inset-0"
+                >
+                  <img
+                    src={IVORY_HALL_PHOTOS[activePhotoIdx].src}
+                    alt={IVORY_HALL_PHOTOS[activePhotoIdx].title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                  />
+                  {/* Elegant Gradient Shadow overlay */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/45 to-transparent pointer-events-none" />
+                  
+                  {/* Decorative tag */}
+                  <div className="absolute top-4 left-4 bg-emerald-brand/90 backdrop-blur-md text-white border border-gold-brand/35 rounded-lg px-2.5 py-1 text-[10px] font-mono font-semibold tracking-wider uppercase">
+                    Featured Space
+                  </div>
+
+                  {/* Caption */}
+                  <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-white space-y-1 z-10">
+                    <h4 className="font-serif text-lg sm:text-xl font-bold text-gold-brand drop-shadow-md">
+                      {IVORY_HALL_PHOTOS[activePhotoIdx].title}
+                    </h4>
+                    <p className="text-gray-200 text-xs font-light tracking-wide leading-relaxed font-sans max-w-2xl">
+                      {IVORY_HALL_PHOTOS[activePhotoIdx].desc}
+                    </p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Selector list */}
+            <div className="lg:col-span-4 flex flex-col justify-between gap-3 overflow-y-auto pr-1">
+              {IVORY_HALL_PHOTOS.map((photo, idx) => {
+                const isActive = idx === activePhotoIdx;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => setActivePhotoIdx(idx)}
+                    className={`flex items-center gap-3.5 p-3 rounded-xl border text-left transition duration-300 w-full cursor-pointer justify-between ${
+                      isActive
+                        ? "border-gold-brand bg-emerald-brand/5 shadow-xs"
+                        : "border-ivory-dark bg-white hover:bg-ivory-brand"
+                    }`}
+                  >
+                    <div className="w-20 h-15 rounded-lg overflow-hidden shrink-0 border border-ivory-dark relative bg-charcoal-mid">
+                      <img
+                        src={photo.src}
+                        alt={photo.title}
+                        referrerPolicy="no-referrer"
+                        className={`w-full h-full object-cover transition duration-300 ${
+                          isActive ? "scale-105 filter brightness-105" : "filter brightness-90 saturate-75"
+                        }`}
+                      />
+                    </div>
+                    <div className="space-y-0.5 flex-grow overflow-hidden">
+                      <h4 className={`text-xs font-bold leading-tight truncate ${
+                        isActive ? "text-emerald-brand" : "text-charcoal-dark"
+                      }`}>
+                        {photo.title}
+                      </h4>
+                      <p className="text-[10px] text-gray-500 font-light leading-relaxed line-clamp-2">
+                        {photo.desc}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Core Layout Grid */}
