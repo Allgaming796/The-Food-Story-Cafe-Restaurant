@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Search, Flame, Sparkles, Plus, Minus, ShoppingBag, ArrowRight, HeartCrack, HelpCircle, Share2, Check, Sparkle, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, Flame, Sparkles, Plus, Minus, ShoppingBag, ArrowRight, HeartCrack, HelpCircle, Share2, Check, Sparkle, ChevronDown, ChevronUp, Leaf } from "lucide-react";
 import { MenuItem } from "../types";
 
 export const getDishImage = (item: MenuItem): string => {
@@ -711,6 +711,16 @@ export function MenuSection({}: MenuSectionProps) {
   const [cart, setCart] = useState<{ [id: string]: number }>({});
   const [itemSizes, setItemSizes] = useState<{ [id: string]: "small" | "medium" | "large" }>({});
 
+  const chefSpecials = useMemo(() => {
+    return RAW_MENU.filter((item) => {
+      const isS = item.tags.some(tag => {
+        const t = tag.toLowerCase();
+        return t.includes("legendary") || t.includes("signature") || t.includes("special") || t.includes("hot") || t.includes("classic");
+      }) || item.id === "bf1" || item.id === "bf6" || item.id === "se6" || item.id === "m1" || item.id === "m2" || item.id === "d1";
+      return isS;
+    }).slice(0, 8);
+  }, []);
+
   // Dine-in sync states
   const [dineInInfo, setDineInInfo] = useState<{
     isInRestaurant: boolean;
@@ -987,6 +997,29 @@ export function MenuSection({}: MenuSectionProps) {
           </p>
         </div>
 
+        {/* Prominent Search Bar at the Top */}
+        <div className="max-w-xl mx-auto w-full relative -mt-7 z-20 px-4 sm:px-0">
+          <div className="relative shadow-md rounded-2xl overflow-hidden border border-gold-brand/40 bg-white">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-brand" />
+            <input
+              type="text"
+              placeholder="Search for paneer, biryani, pizzas, desserts..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-12 py-4 text-sm font-semibold bg-white text-charcoal-dark placeholder-charcoal-mid outline-none focus:ring-2 focus:ring-emerald-brand transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center text-[#C85C3A] hover:bg-neutral-100 rounded-full transition cursor-pointer text-xs font-bold"
+                title="Clear Search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* NEW FEATURE: "Match My Craving" recommendation engine */}
         <div className="bg-white rounded-2xl border border-ivory-dark p-6 shadow-sm overflow-hidden text-left relative">
           <div className="absolute right-4 top-4 opacity-5 pointer-events-none select-none">
@@ -1171,16 +1204,74 @@ export function MenuSection({}: MenuSectionProps) {
           </div>
         </div>
 
-        {/* Dashboard Search Field below Chapters */}
-        <div className="max-w-md mx-auto relative pt-4">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-brand z-10" />
-          <input
-            type="text"
-            placeholder="Search within this page..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-ivory-dark focus:outline-none focus:ring-2 focus:ring-gold-brand text-sm bg-white text-charcoal-dark placeholder-charcoal-mid shadow-2xs"
-          />
+
+
+        {/* Chef's Specials Showcase */}
+        <div className="bg-gradient-to-r from-[#FAF6E3] to-[#FEFAF6] rounded-3xl border border-gold-brand/40 p-6 md:p-8 space-y-6 text-left relative overflow-hidden shadow-xs">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gold-brand/10 rounded-full blur-2xl pointer-events-none" />
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+            <div className="space-y-1">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-[#C85C3A] bg-[#C85C3A]/5 px-3 py-1 rounded-full border border-[#C85C3A]/20">
+                <Sparkles className="w-3.5 h-3.5 text-gold-brand animate-pulse" /> Chef's High Recommendations
+              </span>
+              <h3 className="font-serif text-2xl font-bold text-emerald-brand tracking-tight flex items-center gap-2">
+                <span>The Culinary Masterpieces</span>
+                <span className="text-gold-brand">★</span>
+              </h3>
+              <p className="text-xs text-charcoal-mid max-w-xl font-sans font-light leading-relaxed">
+                Handcrafted local legends and royal delicacies cooked with pristine herbs, pure farm-fresh ingredients, and uncompromised cleanliness.
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-brand uppercase bg-white border border-gold-brand/35 px-4 py-1.5 rounded-full shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-[#C85C3A] animate-ping" />
+              <span>Sizzling Hot Sellers</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+            {chefSpecials.map((item) => {
+              const itemTag = item.tags[0] || "Signature";
+              return (
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.01 }}
+                  key={`special-${item.id}`}
+                  className="bg-white rounded-2xl p-5 border border-gold-brand/20 shadow-3xs hover:shadow-xs relative overflow-hidden flex flex-col justify-between transition-all"
+                >
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-gold-brand/10 text-emerald-brand text-[8px] font-mono font-bold uppercase px-2 py-0.5 rounded-full flex items-center gap-0.5 border border-gold-brand/20">
+                      <Sparkles className="w-2.5 h-2.5 text-gold-brand" /> Recommended
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 flex-1">
+                    <span className="inline-block text-[9px] font-mono font-bold uppercase bg-emerald-brand/5 border border-emerald-brand/15 text-emerald-brand px-2 py-0.5 rounded">
+                      {itemTag}
+                    </span>
+                    
+                    <div className="space-y-1">
+                      <h4 className="font-serif text-sm font-bold text-emerald-brand group-hover:text-gold-brand transition leading-tight">
+                        {item.name}
+                      </h4>
+                      <p className="text-[11px] font-sans font-light text-charcoal-mid line-clamp-2 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-dashed border-ivory-dark/60 mt-4 pt-3">
+                    <span className="font-mono text-xs font-extrabold text-emerald-brand bg-emerald-brand/5 px-2.5 py-0.5 rounded-lg border border-emerald-brand/10">
+                      ₹{item.price}
+                    </span>
+                    <span className="text-[9px] font-mono uppercase font-bold text-[#C85C3A] bg-[#C85C3A]/5 px-2 py-0.5 rounded border border-[#C85C3A]/10">
+                      ★ Must Try
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* View Mode controls */}
@@ -1215,12 +1306,12 @@ export function MenuSection({}: MenuSectionProps) {
           </div>
         </div>
 
-        {/* Main Menu Grid / Split Layout with Interactive Platter Cart */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Main Menu Grid Layout without Buying/Cart Column */}
+        <div className="w-full flex flex-col gap-8">
           
-          {/* Delicacy Cards Column */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+          {/* Delicacy Cards full-width Grid wrapper */}
+          <div className="w-full flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 text-left">
               <AnimatePresence mode="popLayout">
                 {visibleItems.map((item) => {
                   const isPizza = item.name.toLowerCase().includes("pizza") || item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz");
@@ -1229,8 +1320,6 @@ export function MenuSection({}: MenuSectionProps) {
                   const mediumPrice = Math.round(item.price * 0.75);
                   const largePrice = item.price;
                   const activePrice = size === "small" ? smallPrice : size === "medium" ? mediumPrice : largePrice;
-                  const cartKey = `${item.id}_${size}`;
-                  const quantityInPlatter = cart[cartKey] || 0;
 
                   return (
                     <motion.div
@@ -1238,9 +1327,10 @@ export function MenuSection({}: MenuSectionProps) {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
+                      whileHover={{ y: -6, transition: { duration: 0.2, ease: "easeOut" } }}
                       transition={{ duration: 0.3 }}
                       key={item.id}
-                      className="group relative bg-white rounded-3xl border border-ivory-dark/90 hover:border-gold-brand/60 overflow-hidden transition-all shadow-sm hover:shadow-md flex flex-col justify-between"
+                      className="group relative bg-white rounded-3xl border border-ivory-dark/90 hover:border-gold-brand/80 overflow-hidden transition-all shadow-xs hover:shadow-lg flex flex-col justify-between duration-300"
                     >
                       {/* Card Content block */}
                       <div className="p-5 flex flex-col justify-between flex-grow">
@@ -1248,11 +1338,18 @@ export function MenuSection({}: MenuSectionProps) {
                           <div className="flex gap-4 items-start justify-between">
                             <div className="space-y-1.5 flex-1">
                               {/* Corner Tag inline category bubble */}
-                              {item.tags && item.tags[0] && (
-                                <span className="inline-block bg-emerald-brand/5 text-[9px] font-mono font-bold px-2 py-0.5 rounded text-emerald-brand border border-emerald-brand/10 mb-1">
-                                  {item.tags[0]}
-                                </span>
-                              )}
+                              <div className="flex flex-wrap gap-2 items-center mb-1">
+                                {item.tags && item.tags[0] && (
+                                  <span className="inline-block bg-emerald-brand/5 text-[9px] font-mono font-bold px-2.5 py-0.5 rounded text-emerald-brand border border-emerald-brand/10">
+                                    {item.tags[0]}
+                                  </span>
+                                )}
+                                {chefSpecials.some((it) => it.id === item.id) && (
+                                  <span className="inline-flex items-center gap-0.5 bg-gold-brand/15 text-[#C85C3A] text-[9.5px] font-mono font-bold px-2 py-0.5 rounded border border-gold-brand/45 animate-pulse">
+                                    <Sparkles className="w-3 h-3 text-[#C85C3A]" /> Chef's Choice
+                                  </span>
+                                )}
+                              </div>
                               
                               {/* Name & Spiciness indicators */}
                               <div className="space-y-1 font-sans">
@@ -1341,46 +1438,21 @@ export function MenuSection({}: MenuSectionProps) {
                           )}
                         </div>
 
-                        {/* bottom pricing & interactivity */}
+                        {/* bottom pricing */}
                         <div className="flex items-center justify-between pt-3 mt-3 border-t border-ivory-dark/50">
                           <div className="flex flex-col text-left">
                             <span className="text-[9px] font-bold tracking-wider font-mono text-charcoal-mid uppercase leading-none mb-1">
                               {isPizza ? (size === "small" ? "Small Pizza" : size === "medium" ? "Medium Pizza" : "Large Pizza") : "Standard Portion"}
                             </span>
-                            <span className="font-mono text-xs sm:text-sm font-bold text-emerald-brand">
+                            <span className="font-mono text-sm sm:text-base font-extrabold text-emerald-brand">
                               ₹{activePrice}
                             </span>
                           </div>
-
-                          {/* Add button with animation toggle states */}
-                          <div className="flex items-center gap-2 bg-ivory-brand border border-ivory-dark/80 rounded-lg p-0.5 shadow-2xs">
-                            {quantityInPlatter > 0 ? (
-                              <>
-                                <button
-                                  onClick={() => updateCartQuantity(item.id, size, -1)}
-                                  className="w-6 h-6 flex items-center justify-center rounded text-emerald-brand hover:bg-ivory-dark active:scale-90 transition cursor-pointer"
-                                >
-                                  <Minus className="w-3 h-3" />
-                                </button>
-                                <span className="font-mono text-xs text-emerald-brand font-bold px-1.5">
-                                  {quantityInPlatter}
-                                </span>
-                                <button
-                                  onClick={() => updateCartQuantity(item.id, size, 1)}
-                                  className="w-6 h-6 flex items-center justify-center rounded bg-emerald-brand text-gold-brand hover:bg-emerald-mid active:scale-90 transition cursor-pointer"
-                                >
-                                  <Plus className="w-3 h-3" />
-                                </button>
-                              </>
-                            ) : (
-                              <button
-                                onClick={() => updateCartQuantity(item.id, size, 1)}
-                                className="flex items-center justify-center gap-1 px-2.5 py-1 text-[11px] font-bold text-emerald-brand hover:bg-emerald-brand hover:text-gold-brand rounded transition-colors duration-200 cursor-pointer font-sans"
-                              >
-                                <Plus className="w-3.5 h-3.5 font-bold text-gold-brand" />
-                                <span>Add Platter</span>
-                              </button>
-                            )}
+                          
+                          {/* 100% pure veg fresh trusted delicacy */}
+                          <div className="flex items-center gap-1 bg-emerald-brand/5 border border-emerald-brand/10 text-emerald-brand px-2.5 py-1 rounded-xl text-[10px] font-mono uppercase tracking-wider font-bold">
+                            <Leaf className="w-3 h-3 text-emerald-brand" />
+                            <span>100% Veg</span>
                           </div>
                         </div>
                       </div>
@@ -1425,131 +1497,7 @@ export function MenuSection({}: MenuSectionProps) {
               </div>
             )}
           </div>
-
-          {/* Right Interactive Plate Panel (Cart) */}
-          <div className="lg:col-span-4 sticky top-24 bg-emerald-brand rounded-2xl border border-emerald-mid p-6 text-white shadow-xl space-y-5 text-left">
-            <div className="flex items-center justify-between border-b border-emerald-mid pb-3">
-              <div className="flex items-center gap-2.5">
-                <ShoppingBag className="w-5 h-5 text-gold-brand" />
-                <h3 className="font-serif text-lg font-bold text-white">
-                  My Custom Platter
-                </h3>
-              </div>
-              {cartList.length > 0 && (
-                <button
-                  onClick={clearCart}
-                  className="font-mono text-[10px] text-gray-300 hover:text-gold-light transition cursor-pointer uppercase font-bold"
-                >
-                  Clear All
-                </button>
-              )}
-            </div>
-
-            {cartList.length === 0 ? (
-              <div className="py-12 text-center space-y-3 font-sans">
-                <div className="w-12 h-12 rounded-full bg-emerald-mid flex items-center justify-center text-lg mx-auto border border-emerald-light/40">
-                  🌿
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs text-white font-bold">Your platter card is empty.</p>
-                  <p className="text-[11px] text-gray-300 max-w-[200px] mx-auto leading-relaxed">
-                    Choose and add delicious vegetarian items to customize your event catering budget or dine-in planner!
-                  </p>
-                </div>
-              </div>
-            ) : (
-              /* Loaded Cart List scrollbar */
-              <div className="space-y-4">
-                <div className="max-h-[260px] overflow-y-auto space-y-3 pr-1.5 scrollbar-thin">
-                  {cartList.map(({ item, size, price, quantity, key }) => (
-                    <motion.div
-                      layout
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      key={key}
-                      className="flex items-center justify-between gap-3 text-sm bg-emerald-mid p-2.5 rounded-xl border border-emerald-light/30 text-white font-sans"
-                    >
-                      <div className="flex-grow min-w-0">
-                        <p className="font-bold text-white truncate text-xs">
-                          {item.name} <span className="text-[10.5px] text-gold-brand font-medium">({size === "small" ? ((item.tags.includes("Sourdough Pizza") || item.id.startsWith("pz")) ? "Medium" : "Small") : "Large"})</span>
-                        </p>
-                        <p className="text-[10px] text-gold-light font-mono font-semibold">
-                          ₹{price} × {quantity}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-emerald-brand rounded-md border border-emerald-mid p-0.5 shrink-0">
-                        <button
-                          onClick={() => updateCartQuantity(item.id, size, -1)}
-                          className="w-5 h-5 flex items-center justify-center text-gray-300 hover:text-white rounded transition cursor-pointer"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="font-mono text-xs font-bold text-white px-0.5">{quantity}</span>
-                        <button
-                          onClick={() => updateCartQuantity(item.id, size, 1)}
-                          className="w-5 h-5 flex items-center justify-center text-gray-300 hover:text-white rounded transition cursor-pointer"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Live Seated Dine-In Status */}
-                {dineInInfo && (
-                  <div className="bg-emerald-dark/30 border border-gold-brand/40 rounded-xl p-3 flex items-start gap-2.5 text-left animate-fade-in">
-                    <span className="text-sm">📍</span>
-                    <div className="space-y-0.5">
-                      <p className="text-[9px] font-bold tracking-widest font-mono text-gold-light uppercase leading-none">
-                        Dine-In Seated Location
-                      </p>
-                      <p className="text-xs text-white font-serif font-bold">
-                        Table {dineInInfo.tableNumber} • {dineInInfo.hallNumber}
-                      </p>
-                      <p className="text-[9px] text-gray-300 leading-tight">
-                        Your table information is linked and will be automatically submitted with your order!
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Subtotal summary counts */}
-                <div className="bg-emerald-mid p-4 rounded-xl border border-emerald-light/30 space-y-2 font-sans">
-                  <div className="flex justify-between text-xs text-gray-200">
-                    <span>Items Selected:</span>
-                    <span className="font-mono text-gold-light font-bold">
-                      {cartList.reduce((sum, e) => sum + e.quantity, 0)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm font-medium border-t border-emerald-brand pt-2">
-                    <span className="text-gray-100">{dineInInfo ? "Table Order Total:" : "Catering Estimate:"}</span>
-                    <span className="font-mono text-gold-brand text-base font-bold">
-                      ₹{cartTotal}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Combined action rows (Send on WhatsApp) */}
-                <div className="space-y-2">
-                  <button
-                    onClick={handleShareOnWhatsApp}
-                    className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5c] text-white transition duration-300 py-3.5 rounded-xl font-bold text-xs select-none cursor-pointer uppercase tracking-wider shadow-md shadow-green-600/10"
-                  >
-                    <Share2 className="w-4 h-4 shrink-0" />
-                    <span>{dineInInfo ? "Confirm & Send Order to Table" : "Send Platter to WhatsApp"}</span>
-                  </button>
-                </div>
-                
-                <p className="text-[9.5px] text-gray-300 text-center leading-relaxed font-mono">
-                  {dineInInfo 
-                    ? `Confirm your table order instantly with our kitchen on WhatsApp directly from Table ${dineInInfo.tableNumber} in ${dineInInfo.hallNumber}!`
-                    : "Share this custom platter combination instantly with our kitchen to confirm details, spice preferences, or customize your dining table!"
-                  }
-                </p>
-              </div>
-            )}
-          </div>
+          {/* Cart is removed to facilitate a standard text/pricing only browsing-focused layout */}
         </div>
       </div>
     </section>

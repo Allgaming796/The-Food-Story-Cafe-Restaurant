@@ -105,8 +105,10 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
   const [selectedEventType, setSelectedEventType] = useState<string>(EVENT_TYPES[0]);
   const [selectedThemeId, setSelectedThemeId] = useState<string>("theme-gold");
   const [selectedPkgId, setSelectedPkgId] = useState<string>("pkg-gold");
+  const [expandedPackageIncludes, setExpandedPackageIncludes] = useState<Record<string, boolean>>({});
+  const [expandedCustomIncludes, setExpandedCustomIncludes] = useState<boolean>(false);
   
-  // Custom Food Product State selectors
+  // Custom Food Food Product State selectors
   const [customSelectedItems, setCustomSelectedItems] = useState<string[]>(["app3", "app5", "pz4", "mn1", "mn3", "sd2", "dr8", "ds6"]);
   const [activeCustomCat, setActiveCustomCat] = useState<string>("breakfast");
 
@@ -378,14 +380,25 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                           includes full menu:
                         </p>
                         <ul className="text-[11px] text-charcoal-mid font-sans space-y-1">
-                          {pkg.includes.slice(0, 3).map((item, idx) => (
+                          {(expandedPackageIncludes[pkg.id] ? pkg.includes : pkg.includes.slice(0, 3)).map((item, idx) => (
                             <li key={idx} className="truncate">
                               • {item}
                             </li>
                           ))}
                           {pkg.includes.length > 3 && (
-                            <li className="text-gold-brand font-bold font-mono text-[10px]">
-                              + {pkg.includes.length - 3} more items
+                            <li className="list-none pt-0.5">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedPackageIncludes(prev => ({
+                                    ...prev,
+                                    [pkg.id]: !prev[pkg.id]
+                                  }));
+                                }}
+                                className="text-gold-brand hover:text-[#C85C3A] font-bold font-mono text-[10px] cursor-pointer inline-flex items-center gap-1 focus:outline-none"
+                              >
+                                {expandedPackageIncludes[pkg.id] ? "Show less" : `+ ${pkg.includes.length - 3} more items`}
+                              </button>
                             </li>
                           )}
                         </ul>
@@ -444,7 +457,7 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                       {customSelectedItems.length === 0 ? (
                         <li className="italic text-charcoal-light">• Choose items below</li>
                       ) : (
-                        customSelectedItems.slice(0, 3).map((id) => {
+                        (expandedCustomIncludes ? customSelectedItems : customSelectedItems.slice(0, 3)).map((id) => {
                           const name = RAW_MENU.find((m) => m.id === id)?.name || id;
                           return (
                             <li key={id} className="truncate">
@@ -454,8 +467,16 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                         })
                       )}
                       {customSelectedItems.length > 3 && (
-                        <li className="text-gold-brand font-bold font-mono text-[10px]">
-                          + {customSelectedItems.length - 3} more selections
+                        <li className="list-none pt-0.5">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setExpandedCustomIncludes(prev => !prev);
+                            }}
+                            className="text-gold-brand hover:text-[#C85C3A] font-bold font-mono text-[10px] cursor-pointer inline-flex items-center gap-1 focus:outline-none"
+                          >
+                            {expandedCustomIncludes ? "Show less" : `+ ${customSelectedItems.length - 3} more selections`}
+                          </button>
                         </li>
                       )}
                     </ul>
