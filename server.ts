@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
@@ -87,6 +88,20 @@ If the customer has preferences, they are: ${JSON.stringify(userPreferences || {
       console.error("Error calling Gemini API:", error);
       return res.status(500).json({ error: error.message || "Failed to process AI culinary advisory." });
     }
+  });
+
+  // Dynamic route to serve Google Site Verification HTML files from root or dist folders
+  app.get("/google*.html", (req, res) => {
+    const filename = path.basename(req.path);
+    const distFilePath = path.join(process.cwd(), "dist", filename);
+    const rootFilePath = path.join(process.cwd(), filename);
+
+    if (fs.existsSync(distFilePath)) {
+      return res.sendFile(distFilePath);
+    } else if (fs.existsSync(rootFilePath)) {
+      return res.sendFile(rootFilePath);
+    }
+    res.status(404).send("Google site verification file not found in build directory or root.");
   });
 
   // Serve static assets or use Vite middleware
