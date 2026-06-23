@@ -14,7 +14,7 @@ const IVORY_HALL_PHOTOS = [
     desc: "A meticulous formal setup featuring elegant long white tables, plush beige tufted chairs, golden-damask wallpaper panels, and warm cove grid ceilings."
   },
   {
-    src: "/assets/images/ivory_hall_counter_1782121336955.jpg",
+    src: "https://content3.jdmagicbox.com/v2/comp/shahjahanpur/w5/9999p5842.5842.240913212212.h4w5/catalogue/the-food-story-cafe-and-restaurant-keruganj-shahjahanpur-restaurants-i3pa2ad1ud.jpg",
     title: "Artisanal Cafe & Dessert Bar",
     desc: "A vibrant, stylish corner displaying our refrigerated pastry case, custom vertical-slat paneling, and deep blue velvet seating under colorful balloons."
   },
