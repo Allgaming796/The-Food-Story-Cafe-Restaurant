@@ -9,7 +9,7 @@ import { BanquetCostEstimator } from "./BanquetCostEstimator";
 
 const IVORY_HALL_PHOTOS = [
   {
-    src: "/assets/images/ivory_hall_tables_1782121356625.jpg",
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1200",
     title: "Regal Banquet Dining Setup",
     desc: "A meticulous formal setup featuring elegant long white tables, plush beige tufted chairs, golden-damask wallpaper panels, and warm cove grid ceilings."
   },
@@ -19,12 +19,12 @@ const IVORY_HALL_PHOTOS = [
     desc: "A vibrant, stylish corner displaying our refrigerated pastry case, custom vertical-slat paneling, and deep blue velvet seating under colorful balloons."
   },
   {
-    src: "/assets/images/ivory_hall_booths_1782121378592.jpg",
+    src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1200",
     title: "Premium Family Dining Booths",
     desc: "Cozy leather-backed booth arrays divided by planter box greenery, placed next to black steel grid windows with climbing foliage."
   },
   {
-    src: "/assets/images/ivory_hall_room_1782121394192.jpg",
+    src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1200",
     title: "Generous Main Banquet Hall",
     desc: "Spacious combined banquet dining area showcasing premium track spotlights, ceiling fans, and versatile seating perfect for gatherings up to 300."
   }
