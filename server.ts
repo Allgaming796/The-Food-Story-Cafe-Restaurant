@@ -90,6 +90,101 @@ If the customer has preferences, they are: ${JSON.stringify(userPreferences || {
     }
   });
 
+  // API Endpoint: Live Waiting Time dynamic calculator
+  app.get("/api/waiting-time", (req, res) => {
+    const partySize = parseInt(req.query.partySize as string) || 2;
+    
+    // Calculate base wait time using the current Indian Standard Time (IST) hour 
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    // Offset for India Time (UTC + 5:30)
+    const istNow = new Date(utc + (3600000 * 5.5));
+    const currentHour = istNow.getHours();
+    const currentDay = istNow.getDay(); // 0 = Sunday, 6 = Saturday
+
+    let baseMinutes = 5;
+    let tablesAhead = 0;
+
+    // Define hourly traffic curves
+    if (currentHour >= 11 && currentHour < 15) {
+      // Lunch Peak hour
+      baseMinutes = 18;
+      tablesAhead = 2;
+    } else if (currentHour >= 15 && currentHour < 19) {
+      // Late afternoon idle
+      baseMinutes = 5;
+      tablesAhead = 0;
+    } else if (currentHour >= 19 && currentHour < 22) {
+      // Dinner Peak Rush
+      baseMinutes = 32;
+      tablesAhead = 5;
+    } else if (currentHour >= 22 && currentHour < 24) {
+      // Late night dining breeze
+      baseMinutes = 12;
+      tablesAhead = 1;
+    } else {
+      // Closed or early morning hours (before 11 AM)
+      baseMinutes = 0;
+      tablesAhead = 0;
+    }
+
+    // Weekend multiplier (Friday, Saturday, Sunday increases footfall)
+    const isWeekend = currentDay === 0 || currentDay === 5 || currentDay === 6;
+    if (isWeekend && baseMinutes > 0) {
+      baseMinutes += 8;
+      tablesAhead += 2;
+    }
+
+    // Party size scaling multiplier
+    let groupNotes = "";
+    if (partySize >= 9) {
+      baseMinutes += 25;
+      tablesAhead += 3;
+      groupNotes = "Large group dining. Custom table joining required.";
+    } else if (partySize >= 5) {
+      baseMinutes += 12;
+      tablesAhead += 1;
+      groupNotes = "Family-sized booths are in popular demand.";
+    } else if (partySize >= 3) {
+      baseMinutes += 4;
+      groupNotes = "Moderate seating requirements.";
+    } else {
+      groupNotes = "Instant table matches for couples & duos.";
+    }
+
+    // Add minute based micro fluctuation to simulate active sensors
+    const fluctuation = Math.floor(Math.sin(now.getUTCMinutes() / 3) * 4);
+    const finalWaitTime = baseMinutes > 0 ? Math.max(2, baseMinutes + fluctuation) : 0;
+
+    let status: "ready" | "moderate" | "busy" = "ready";
+    let message = "Tables are instantly available right now.";
+
+    if (finalWaitTime === 0) {
+      status = "ready";
+      message = "Restaurant is currently closed. Doors open at 11:00 AM!";
+    } else if (finalWaitTime <= 8) {
+      status = "ready";
+      message = "Vibrant & seating available. Zero walk-in blockages.";
+    } else if (finalWaitTime <= 24) {
+      status = "moderate";
+      message = "Sprightly dinner service. Quick table handovers under way.";
+    } else {
+      status = "busy";
+      message = "Sizzling peak dining rush. Tables are filling up quick!";
+    }
+
+    res.json({
+      waitTime: finalWaitTime,
+      tablesAhead: Math.max(0, tablesAhead),
+      status,
+      message,
+      partySize,
+      isWeekend,
+      groupNotes,
+      lastUpdated: new Date().toISOString()
+    });
+  });
+
   // Dynamic route to serve Google Site Verification HTML files from root or dist folders
   app.get("/google*.html", (req, res) => {
     const filename = path.basename(req.path);

@@ -31,6 +31,7 @@ import { BanquetPlanner } from "./components/BanquetPlanner";
 import { ReviewsSection } from "./components/ReviewsSection";
 import { FAQSection } from "./components/FAQSection";
 import { DineInStatus } from "./components/DineInStatus";
+import { LiveWaitingTime } from "./components/LiveWaitingTime";
 import { WhyChooseUs } from "./components/WhyChooseUs";
 import { LocationMap } from "./components/LocationMap";
 
@@ -144,6 +145,9 @@ export default function App() {
       {/* Main Narrative Hero Intro Panel */}
       <main className="flex-1">
         <HeroSection onNavigate={handleHeroNavigation} />
+
+        {/* Live waiting time indicator */}
+        <LiveWaitingTime onReserveClick={() => handleHeroNavigation("booking")} />
 
         {/* Ask if the user is currently at the restaurant */}
         <DineInStatus />

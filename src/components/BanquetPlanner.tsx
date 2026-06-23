@@ -10,7 +10,7 @@ import { BanquetCostEstimator } from "./BanquetCostEstimator";
 const IVORY_HALL_PHOTOS = [
   {
     src: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1200",
-    title: "Regal Banquet Dining Setup",
+    title: "Regal Hall Dining Setup",
     desc: "A meticulous formal setup featuring elegant long white tables, plush beige tufted chairs, golden-damask wallpaper panels, and warm cove grid ceilings."
   },
   {
@@ -25,8 +25,8 @@ const IVORY_HALL_PHOTOS = [
   },
   {
     src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=1200",
-    title: "Generous Main Banquet Hall",
-    desc: "Spacious combined banquet dining area showcasing premium track spotlights, ceiling fans, and versatile seating perfect for gatherings up to 300."
+    title: "Generous Main Hall",
+    desc: "Spacious combined hall dining area showcasing premium track spotlights, ceiling fans, and versatile seating perfect for gatherings up to 300."
   }
 ];
 
