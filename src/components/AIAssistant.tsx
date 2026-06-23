@@ -72,7 +72,10 @@ Try selecting one of the custom helper questions below, or tell me about your pa
       setMessages((prev) => [...prev, { role: "assistant", content: data.text }]);
     } catch (err: any) {
       console.error(err);
-      setErrorText(err.message || "Something went wrong. Let me reset.");
+      const isNetworkError = err.message?.toLowerCase().includes("fetch") || err.message?.toLowerCase().includes("network") || err.name === "TypeError";
+      setErrorText(isNetworkError 
+        ? "The virtual helper is momentarily connecting or undergoing standard updates. Please try again in a few seconds!" 
+        : (err.message || "Something went wrong. Let me reset."));
     } finally {
       setIsLoading(false);
     }
