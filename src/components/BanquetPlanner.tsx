@@ -5,6 +5,7 @@ import { BanquetTheme, CateringPackage, BanquetEstimate } from "../types";
 import { ReservationForm } from "./ReservationForm";
 import { RAW_MENU } from "./MenuSection";
 import { BanquetHallVisualizer } from "./BanquetHallVisualizer";
+import { BanquetCostEstimator } from "./BanquetCostEstimator";
 
 const IVORY_HALL_PHOTOS = [
   {
@@ -89,14 +90,6 @@ const DECOR_THEMES: BanquetTheme[] = [
 
 const CATERING_PACKAGES: CateringPackage[] = [
   {
-    id: "pkg-silver",
-    name: "Silver Local Delights",
-    pricePerPlate: 699,
-    description: "A solid local menu featuring pure vegetarian tandoori favorites, hand-crafted paneer curries, and essential local desserts.",
-    includes: ["2 Appetizers", "1 Main (Paneer specialty)", "Dal Makhani with Naans", "Chilled Cucumber Mint Cooler", "Cardamom Gulab Jamun"],
-    features: ["Standard Buffet setup", "Attentive replenishment", "Eco-friendly premium dinnerware"],
-  },
-  {
     id: "pkg-gold",
     name: "Gold Signature Feast",
     pricePerPlate: 999,
@@ -111,6 +104,14 @@ const CATERING_PACKAGES: CateringPackage[] = [
     description: "An ultra prestige legacy dining experience featuring live fire counters, exclusive mocktails, chocolate fountains, and edible gold leaf garnishes.",
     includes: ["Live Fire Tandoori Platter Counters", "Broccoli & Lotus stems starters", "3 Premium Mains", "Mango-Rabri Shakes and Cold Brew Spritzes", "Live Brownie station & Shahi Tukda", "Custom themed celebration cake"],
     features: ["Silver-tray service", "Live Chef carving counters", "Table Butler allocation"],
+  },
+  {
+    id: "pkg-signature",
+    name: "Signature Luxury Feast",
+    pricePerPlate: 1599,
+    description: "An exceptional Royal Awadhi dining setup showcasing customized high-tea mocktail fountains, exotic pan-Asian fusion woks, live artisanal kulfi counters, and active personal chefs.",
+    includes: ["4 Premium Starters (Stuffed Mushroom, Galouti Kebab)", "Shahi Awadhi Veg Biryani with saffron", "Active fusion pasta counters", "3 Elite Desserts including hot saffron Jalebi-Rabri", "Bespoke themed cake & cold smoke presentation"],
+    features: ["Personal VIP servers", "Gold-gilded fine china tableware", "Private master sommelier & drink barista"],
   }
 ];
 
@@ -747,6 +748,16 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                 </AnimatePresence>
               </div>
             </div>
+
+            {/* Dynamic Price Range Estimator Comparison Section */}
+            <BanquetCostEstimator
+              guestCount={guestCount}
+              selectedPkgId={selectedPkgId}
+              selectedThemePrice={selectedTheme.pricePerGuest}
+              addonsTotal={mathAddonsTotal}
+              finalEstimatedTotal={finalEstimatedTotal}
+              onSelectPackage={(pkgId) => setSelectedPkgId(pkgId)}
+            />
 
             {/* Step 4: Live Event Addons */}
             <div className="bg-white rounded-2xl border border-ivory-dark shadow-sm p-6 space-y-6 text-left">
