@@ -4,6 +4,7 @@ import { Users, PartyPopper, Cake, Camera, Music, Calendar, DollarSign, CheckCir
 import { BanquetTheme, CateringPackage, BanquetEstimate } from "../types";
 import { ReservationForm } from "./ReservationForm";
 import { RAW_MENU } from "./MenuSection";
+import { BanquetHallVisualizer } from "./BanquetHallVisualizer";
 
 const IVORY_HALL_PHOTOS = [
   {
@@ -279,7 +280,6 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                   <img
                     src={IVORY_HALL_PHOTOS[activePhotoIdx].src}
                     alt={IVORY_HALL_PHOTOS[activePhotoIdx].title}
-                    referrerPolicy="no-referrer"
                     className="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105"
                   />
                   {/* Elegant Gradient Shadow overlay */}
@@ -321,7 +321,6 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                       <img
                         src={photo.src}
                         alt={photo.title}
-                        referrerPolicy="no-referrer"
                         className={`w-full h-full object-cover transition duration-300 ${
                           isActive ? "scale-105 filter brightness-105" : "filter brightness-90 saturate-75"
                         }`}
@@ -404,6 +403,9 @@ export function BanquetPlanner({}: BanquetPlannerProps) {
                 </div>
               </div>
             </div>
+
+            {/* Dynamic Room Capacity & Floor Blueprint Visualizer */}
+            <BanquetHallVisualizer guestCount={guestCount} />
 
             {/* Step 2: Decorative Themes */}
             <div className="bg-white rounded-2xl border border-ivory-dark shadow-sm p-6 space-y-6 text-left">
